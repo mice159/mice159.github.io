@@ -1,0 +1,61 @@
+임무(Quests),종류,목표,보상,선행 퀘스트
+소개 (Introduction),종합,"삼림(Woods)에서 예거의 캠프 찾기, 암호 메시지 획득 및 건네주기","+4,500 EXP, 메카닉 Rep +0.03, 30,000 루블, 예거(Jaeger) 이용 가능",예
+건스미스 - 파트 1 (Gunsmith - Part 1),개조,MP-133을 요구 사항에 맞게 개조하기,"+800 EXP, 메카닉 Rep +0.01, 10,000 루블, 너트/볼트 각 1개, 12/70 슬러그 20발, AR-15 레일 가스블록 (잠금해제 - 레벨1)",예
+건스미스 - 파트 2 (Gunsmith - Part 2),개조,AKS-74U를 요구 사항에 맞게 개조하기,"+2,000 EXP, 메카닉 Rep +0.01, 15,000 루블, 축전기/전선/전구 각 2개, AK 100 총열덮개 (프라퍼 레벨1 잠금해제)",예
+건스미스 - 파트 3 (Gunsmith - Part 3),개조,MP5를 요구 사항에 맞게 개조하기,"+2,800 EXP, 메카닉 Rep +0.01, 250 달러, SwampFox Trihawk 2개, Magpul RVG 2개, Glock 17 Tac 3 (교환 잠금해제 - 레벨1)",예
+건스미스 - 파트 4 (Gunsmith - Part 4),개조,OP-SKS를 요구 사항에 맞게 개조하기,"+3,600 EXP, 메카닉 Rep +0.01, 25,000 루블, 화약 ""Kite"" 2개, 자동차 배터리 1개, 전동 모터 1개, PP-19-01 Zenit (교환 잠금해제 - 레벨1)",예
+건스미스 - 파트 5 (Gunsmith - Part 5),개조,Remington Model 870을 요구 사항에 맞게 개조하기,"+4,100 EXP, 메카닉 Rep +0.01, 300 달러, 무기 부품 3개, 탄약 보관함 (교환 잠금해제 - 레벨1)",예
+건스미스 - 파트 6 (Gunsmith - Part 6),개조,AKM을 요구 사항에 맞게 개조하기,"+5,800 EXP, 메카닉 Rep +0.01, 50,000 루블, 나사 봉지/계전기 각 2개, 7.62x39mm BP 60발, AK GP-25 액세서리 (프라퍼 레벨2 잠금해제)",예
+건스미스 - 파트 7 (Gunsmith - Part 7),개조,M4A1을 요구 사항에 맞게 개조하기,"+6,300 EXP, 메카닉 Rep +0.01, 500 달러, 엘리트 플라이어 1개, 전동 드릴 1개, AR-15 Daniel Defense 가스블록 (잠금해제 - 레벨2)",예
+건스미스 - 파트 8 (Gunsmith - Part 8),개조,AKS-74N을 요구 사항에 맞게 개조하기,"+8,600 EXP, 메카닉 Rep +0.02, 75,000 루블, CAA XRSU47SU 총열덮개 2개, JMac RRD-4C 제퇴기 2개, 5.45x39mm BS 60발",예
+건스미스 - 파트 9 (Gunsmith - Part 9),개조,P226R을 요구 사항에 맞게 개조하기,"+9,800 EXP, 메카닉 Rep +0.02, 300 유로, 화약 ""Hawk"" 2개, M4A1 SOPMOD I (잠금해제 - 레벨3), 5.7x28mm R37.F (잠금해제 - 레벨4)",예
+건스미스 - 파트 10 (Gunsmith - Part 10),개조,AK-105을 요구 사항에 맞게 개조하기,"+10,400 EXP, 메카닉 Rep +0.02, 전선 5개, 금속 예비 부품 2개, 탄약 보관함 (잠금해제 - 레벨2)",예
+건스미스 - 파트 11 (Gunsmith - Part 11),개조,KRISS Vector 9x19을 요구 사항에 맞게 개조하기,"+11,600 EXP, 메카닉 Rep +0.02, 500 달러, SureFire SOCOM556-MINI 소음기 1개, M4A1 SAI (교환 잠금해제 - 레벨2)",예
+건스미스 - 파트 12 (Gunsmith - Part 12),개조,SIG MPX을 요구 사항에 맞게 개조하기,"+12,300 EXP, 메카닉 Rep +0.02, 500 달러, VP-09 Interceptor 제퇴기 1개, FN P90 Attenuator 소음기 1개, SureFire MAG5-100 탄창 1개",예
+건스미스 - 파트 13 (Gunsmith - Part 13),개조,R11 RSASS을 요구 사항에 맞게 개조하기,"+13,600 EXP, 메카닉 Rep +0.02, 500 달러, 주름진 호스 2개, 못 상자 2개, KAC PRS/QDC 소음기 (피스키퍼 레벨3 잠금해제)",예
+건스미스 - 파트 14 (Gunsmith - Part 14),개조,HK 416A5을 요구 사항에 맞게 개조하기,"+14,900 EXP, 메카닉 Rep +0.02, 500 달러, Torrey Pines T12W 1개, 화약 ""Eagle"" 3개, Magpul PRS GEN3 개머리판 (피스키퍼 레벨3 잠금해제)",예
+건스미스 - 파트 15 (Gunsmith - Part 15),개조,AS VAL을 요구 사항에 맞게 개조하기,"+19,400 EXP, 메카닉 Rep +0.02, Kiba Arms 안쪽 문 열쇠 1개, 압력 게이지 1개, VSS/VAL TOZ 마운트 (예거 레벨3 잠금해제)",예
+건스미스 - 파트 16 (Gunsmith - Part 16),개조,DVL-10을 요구 사항에 맞게 개조하기,"+20,400 EXP, 메카닉 Rep +0.03, 200,000 루블, 나사 봉지 2개, 전동 드릴 1개, 금속 연료통 1개, TX-15 DML (스키어 레벨3 잠금해제)",예
+건스미스 - 파트 17 (Gunsmith - Part 17),개조,AK-102을 요구 사항에 맞게 개조하기,"+21,400 EXP, 메카닉 Rep +0.03, 35,000 루블, 점화 플러그 4개, GreenBat 배터리 2개, Magpul AFG (잠금해제 - 레벨3), Hera Arms CQR 그립/개머리판 2종 (잠금해제 - 레벨4), AK CNC Warrior 어댑터 (잠금해제 - 레벨3)",예
+건스미스 - 파트 18 (Gunsmith - Part 18),개조,AKMN을 요구 사항에 맞게 개조하기,"+23,100 EXP, 메카닉 Rep +0.03, 50,000 루블, EOTech Vudu 1개, Hexagon Wafflemaker 소음기 1개, Hexagon Reactor 제퇴기 1개, Steiner LAS/TAC 2 (잠금해제 - 레벨3), Kiba Arms .308 어댑터 (잠금해제 - 레벨3)",예
+건스미스 - 파트 19 (Gunsmith - Part 19),개조,SVDS을 요구 사항에 맞게 개조하기,"+25,500 EXP, 메카닉 Rep +0.03, 75,000 루블, 라쳇 렌치 1개, Bulbex 케이블 커터 1개, AK Custom Arms 권총 손잡이 (스키어 레벨4 잠금해제)",예
+건스미스 - 파트 20 (Gunsmith - Part 20),개조,M1A을 요구 사항에 맞게 개조하기,"+26,600 EXP, 메카닉 Rep +0.03, 500 유로, Hera Arms CQR 그립/개머리판 1개, Hera Arms CQR 전술 손잡이 1개, AR-10 KAC QDC 제퇴기 키트 (잠금해제 - 레벨3), Magpul MOE 패드 (피스키퍼 레벨4 잠금해제)",예
+건스미스 - 파트 21 (Gunsmith - Part 21),개조,"M700, M1911을 요구 사항에 맞게 개조하기","+27,700 EXP, 메카닉 Rep +0.03, 권총 보관함 1개, 7.62x51mm M993 50발, HK Ergo PSG-1 그립 (잠금해제 - 레벨4), Strike Industries 완충튜브 (잠금해제 - 레벨4)",예
+건스미스 - 파트 22 (Gunsmith - Part 22),개조,M4A1을 요구 사항에 맞게 개조하기,"+28,900 EXP, 메카닉 Rep +0.03, 1,000 유로, 탄창 보관함 1개, FLIR RS-32 열화상 조준경 2개, Trijicon REAP-IR (교환 잠금해제 - 레벨4), SilencerCo Saker ASR (피스키퍼 레벨4 잠금해제)",예
+신호 - 파트 1 (Signal - Part 1),탐색,"해안선(Shoreline)에서 신호원 2곳 찾기, 살아서 탈출하기","+6,700 EXP, 메카닉 Rep +0.02, 10,000 루블, Glock 드럼 탄창 3개",예
+내부자 (Insider),평판,프라퍼와의 우호도 3레벨 달성하기,"+6,700 EXP, 메카닉 Rep +0.02, 800 유로, SilencerCo Osprey 9 소음기 2개",예
+신호 - 파트 2 (Signal - Part 2),획득 및 전달,"레이드에서 PC CPU 3개, 충전지 3개, 인쇄 회로 기판 3개, 고장난 GPhone 3개 획득 및 건네주기","+6,700 EXP, 메카닉 Rep +0.02, 50,000 루블",예
+정찰 (Scout),종합,"공장(Factory) 맵의 탈출구 4곳 찾기, 살아서 탈출하기","+6,800 EXP, 메카닉 Rep +0.02, 30,000 루블, Factory emergency exit key 1개",예
+남는 물건 (Surplus Goods),획득 및 전달,리저브(Reserve)에서 MBT 통합 내비게이션 시스템 회수 및 건네주기,"+7,500 EXP, 메카닉 Rep +0.02, 40,000 루블, UV Lamp 2개, ES Lamp 2개",예
+뒷문 (Back Door),탐색,"리저브(Reserve) 전원 공급 탈출구 찾기, 비밀 탈출구로 탈출하기","+8,200 EXP, 메카닉 Rep +0.02, 1,000 유로, SV-98 저격소총 1정",예
+신호 - 파트 3 (Signal - Part 3),종합,"해안선(Shoreline)에서 특정 위치에 전파 교란기 3개 설치하기, 살아서 탈출하기","+8,500 EXP, 메카닉 Rep +0.02, 30,000 루블, Benelli M3 Super 90 1개, 12/70 Magnum buckshot 40발",예
+신호 - 파트 4 (Signal - Part 4),스킬,기억력 스킬 레벨 4 도달하기,"+8,600 EXP, 메카닉 Rep +0.02, 20,000 루블, Nightforce ATACR 조준경 1개",예
+채굴 - 파트 1 (Farming - Part 1),종합,"공장(Factory)에서 공구세트로 제어장치 2곳 수리하기, 살아서 탈출하기","+6,600 EXP, 메카닉 Rep +0.02, 25,000 루블, 전구 2개, 라디에이터 나선관 2개",예
+채굴 - 파트 2 (Farming - Part 2),획득 및 전달,"레이드에서 파워 케이블 2개, T자형 플러그 4개, 인쇄 회로 기판 2개 획득 및 건네주기","+5,500 EXP, 메카닉 Rep +0.02, 15,000 루블, ASh-12 돌격 소총 1정, NIXXOR 렌즈 1개",예
+나쁜 습관 (Bad Habit),획득 및 전달,"레이드에서 말보루, 스트라이크, 윌스턴 담배 각 5개 획득 및 건네주기","+6,700 EXP, 메카닉 Rep +0.02, 300 유로, Glock 18C 기관 권총 1정, 9x19mm 녹색 예광탄 300발, OLOLO 비타민 (테라피스트 레벨 1 교환 잠금해제)",예
+채굴 - 파트 3 (Farming - Part 3),종합,"세관(Customs) 압류된 물품 창고 찾기, 그래픽 카드가 담긴 상자 회수 및 건네주기","+6,500 EXP, 메카닉 Rep +0.02, 20,000 루블, UHF RFID 리더기 1개",예
+채굴 - 파트 4 (Farming - Part 4),획득 및 전달,"레이드에서 그래픽 카드 3개, CPU 쿨러 8개 획득 및 건네주기","+8,000 EXP, 주의력 +1 레벨, 메카닉 Rep +0.02, 300 유로, 권총 보관함 1개, Glock 17 Viper 1정",예
+사이코 저격수 (Psycho Sniper),스킬,저격소총 스킬 레벨 8 도달하기,"+26,700 EXP, 지력/인지능력 +2 레벨, 스트레스 저항력 +1 레벨, 메카닉 Rep +0.03, 150,000 루블, AK-104 T-SAW (교환 잠금해제 - 레벨3)",예
+천국에서 태어난 저격수 (A Shooter Born in Heaven),사살,"6개 맵(Woods, Reserve, Shoreline, Customs, Lighthouse, Streets)에서 100미터 초과 거리 PMC 헤드샷 각 3명 사살 (총 18명)","+11,600 EXP, 저격소총 +1 레벨, 메카닉 Rep +0.03, 100,000 루블, Mosin 소총 (저격) 1정, Mosin 탄창 4개, 7.62x54mm R SNB 50발, 탄창 보관함 (잠금해제 - 레벨3)",예
+비료 (Fertilizers),획득 및 전달,"레이드에서 전선 5개, 축전기 5개 획득 및 건네주기","+17,200 EXP, 메카닉 Rep +0.02, 65,000 루블, 0.2BTC 비트코인, HK USP .45 Match (잠금해제 - 레벨3)",예
+수입 (Import),획득 및 전달,"레이드에서 UHF RFID 리더기 1개, VPX 플래시 저장소 모듈 1개 획득 및 건네주기","+29,000 EXP, 메카닉 Rep +0.03, 예거 Rep -0.01, 85,000 루블, 0.2BTC 비트코인 2개, Iridium 열화상 모듈 1개, Trijicon REAP-IR 1개, .338 Lapua Magnum TAC-X (잠금해제 - 레벨4)",예
+화학자의 옷장 (Chemistry Closet),종합,"헬스 리조트에 있는 세니타의 사무실 찾기, 살아서 탈출하기","+13,400 EXP, 메카닉 Rep +0.05, 1,000 유로, SilencerCo Hybrid 46 소음기 2개, GPU 그래픽 카드 1개, T H I C C 무기 보관함 (교환 잠금해제 - 레벨4)",예
+영점 조정 (Calibration),사살,100미터 이상의 거리에서 PMC 20명 사살하기,"+93,000 EXP, 인지능력 +1 레벨, 탄창 보관함 1개, ""Kiba Arms"" 완장 1개, Thermite 5개",아니요
+배달부 (The Courier),종합,세관(Customs) 2곳에 Trigicon REAP-IR 열화상 조준경 숨겨두기,"+137,000 EXP, 제작/지력 +1 레벨, SWORD International Mk-18 1정",아니요
+기업 기밀 (Corporate Secrets),탐험,"등대(Lighthouse) 하수처리장/펌프장에서 정보 찾기, 정보 건네주기","+8,000 EXP, 메카닉 Rep +0.02, 40,000 루블, AK-104 RPKT mod.1 (교환 잠금해제 - 레벨1)",예
+에너지 위기 (Energy Crisis),탐험,등대(Lighthouse)에서 유조차 3대 찾아 MS2000 마커 설치하기,"+13,000 EXP, 메카닉 Rep +0.02, 75,000 루블, FN SCAR-L (FDE) Contract Wars (교환 잠금해제 - 레벨2), Tromix Monster Claw 제퇴기 (잠금해제 - 레벨3)",예
+Broadcast - Part 1,종합,"등대(Lighthouse)의 숨겨진 녹음 스튜디오 찾기, 스튜디오 내부에 전파 교란기 설치하기","+6,700 EXP, 650 유로, 메카닉 Rep +0.03, Thermite 1개, 못 상자 1개",예
+Broadcast - Part 2,종합,"타르코프 시내(Streets of Tarkov) 식료품점 내부의 방송 장소 찾기, 살아서 탈출하기","+7,400 EXP, 메카닉 Rep +0.02, 44,000 루블, Steyr AUG A1 1정, Steyr AUG 탄창 3개, 5.56x45mm M855 60발",아니요
+Surveillance,획득 및 전달,타르코프 시내 Concordia 주거 단지 주차장에서 차량 이동 정보 획득 및 건네주기,"+22,800 EXP, 메카닉 Rep +0.02, 126,000 루블, 군용 전력 필터 1개",아니요
+Watching You,획득 및 전달,"타르코프 시내에서 감시 지점 찾기, 관찰 결과 건네주기","+18,500 EXP, 메카닉 Rep +0.02, 94,000 루블, 군용 케이블 2개",아니요
+Network Provider - Part 1,획득 및 전달,"레이드에서 전자 부품 4개, 군용 COFDM 4개, 가스 분석기 4개, 고장난 GPhone 4개 획득 및 건네주기","+18,600 EXP, 메카닉 Rep +0.01",아니요
+Network Provider - Part 2,탐색,"4개 지점(MI-8 헬기, USEC 오두막, 등대 고지대, 침수된 건물 지붕)에 재전송기 설치하기","+19,100 EXP, 메카닉 Rep +0.01",아니요
+Assessment - Part 1,사살,등대(Lighthouse) 구역에서 PMC 20명 제거하기,"+23,500 EXP, 메카닉 Rep +0.01",아니요
+Assessment - Part 2,탐색,삼림(Woods)에서 벙커 4곳 찾아 MS2000 마커 설치하기,"+24,200 EXP, 메카닉 Rep +0.01",아니요
+Assessment - Part 3,획득 및 전달/사살,"The Lab에서 레이더 10명 제거, 레이드에서 SJ1 20개, SJ6 8개, SJ9 2개 주사기 획득 및 건네주기","+24,800 EXP, 메카닉 Rep +0.01",아니요
+Key to the Tower,획득 및 전달,"레이드에서 플렉시글라스 2개, 절연 테이프, 군용 회로 기판 2개, 군용 COFDM, LCD 획득 및 건네주기, 등대에서 무전기 본체 획득 및 건네주기","+30,500 EXP, 메카닉 Rep +0.01",아니요
+Knock-Knock,종합,"트랜스폰더 작동 확인하기, 등대(Lighthouse)에서 살아서 탈출하기","+31,300 EXP, 메카닉 Rep +0.01, Lightkeeper Rep +0.01",아니요
+Getting Acquainted,획득 및 전달,"등대에서 V3 플래시 드라이브 획득, 무전기 재플래시하기, 플래시 드라이브 건네주기, 등대 건물 방문하기","+32,000 EXP, 메카닉 Rep +0.01",아니요
+Make Amends - Buyout,평판,"1,000,000 루블 건네주기",Lightkeeper Rep +0.01,아니요
+Make Amends - Equipment,획득 및 전달,레이드에서 SVDS 저격소총 4개 획득 및 건네주기,Lightkeeper Rep +0.01,아니요
+Make Amends,획득 및 전달,"등대에서 V3 플래시 드라이브 획득, 무전기 재플래시하기, 플래시 드라이브 건네주기, 등대 건물 방문하기","메카닉 Rep +0.01, Lightkeeper Rep +0.01",아니요

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퀘스트 상세 | 게임 지도 & 퀘스트 가이드</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <h1>퀘스트 보기</h1>
+    <nav class="nav">
+      <a href="quests.html" class="nav-link active">퀘스트</a>
+      <a href="index.html" class="nav-link">지도</a>
+    </nav>
+  </header>
+  <main class="layout quests-centered">
+    <section class="quests-center">
+      <div class="portrait-wrap center">
+        <div id="npcGrid" class="npc-grid" aria-label="트레이더 초상화"></div>
+      </div>
+      <div class="list-wrap">
+        <div class="list-panel">
+          <div id="selectedNpcName" class="selected-npc-name" style="padding:10px 12px;">트레이더 선택</div>
+          <div id="npcQuestList" class="npc-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="questModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button id="modalClose" class="modal-close" aria-label="닫기">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+  <footer class="app-footer">
+    <span>EFT 트레이더 · 퀘스트 상세 보기</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="quest_details.js"></script>
+  <script src="quests.js"></script>
+</body>
+</html>
+
+

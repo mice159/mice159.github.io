@@ -1,0 +1,51 @@
+임무(Quests),종류,목표,보상,선행 퀘스트
+Acquaintance,종합,"레이드에서 Iskra 전투식량, Emelya rye croutons, Large Can of beef stew 각 1개 획득 및 건네주기","+3,900 EXP, 예거 Rep +0.01, 50,000 루블, SurvL Survivor Lighter",예
+The Survivalist Path - Unprotected but Dangerous,종합,삼림(Woods)에서 방탄복 없이 스캐브 5명 사살,"+5,600 EXP, 예거 Rep +0.02, 35,000 루블, AKMSN 소총, 7.62x39mm PS gzh 200발",예
+The Survivalist Path - Thrifty,종합,"삼림(Woods)의 ZB-016, ZB-014 벙커에 Iskra 전투식량, 물병 각 1개씩 숨기기","+4,700 EXP, 예거 Rep +0.01, 22,000 루블, 위상 제어 계전기, 금속 연료통, Iskra 전투식량 (잠금해제 - 레벨2)",예
+The Survivalist Path - Zhivchik,종합,공장(Factory) 외 맵에서 완전 탈수 상태로 5분간 생존 후 탈출,"+5,700 EXP, 예거 Rep +0.02, 30,000 루블, Aquamari 물병, 정수 필터",예
+The Survivalist Path - Wounded Beast,종합,고통 효과를 겪으면서 스캐브 3명 사살,"+5,800 EXP, 스트레스 저항 +1 레벨, 예거 Rep +0.02, 65,000 루블",예
+The Survivalist Path - Tough Guy,종합,삼림(Woods)에서 단일 레이드에 약품 사용 없이 스캐브 3명 사살,"+7,000 EXP, 인식 +1 레벨, 예거 Rep +0.02, 40,000 루블, CMS 키트, 약 더미",예
+Courtesy Visit,종합,"해안선(Shoreline) 버려진 마을의 회장, 어부, 성직자 집 찾기 후 '생존' 상태로 탈출","+11,800 EXP, 예거 Rep +0.03, 35,000 루블, Emelya rye croutons, 우유 팩",예
+Nostalgia,종합,"헬스 리조트에서 예거의 방 찾기, 예거의 사진 앨범 획득 및 건네주기","+16,800 EXP, 예거 Rep +0.02, 30,000 루블, 서류 가방, HEP 역 창고 열쇠",예
+The Survivalist Path - Cold Blooded,종합,떨림 효과를 겪으면서 PMC 2명 헤드샷으로 사살,"+5,900 EXP, 스트레스 저항 +1 레벨, 예거 Rep +0.02, 75,000 루블",예
+The Survivalist Path - Junkie,사살,각성제 효과를 받으면서 삼림(Woods)에서 스캐브 15명 사살,"+5,900 EXP, 대사 +2 레벨, 예거 Rep +0.02, 30,000 루블, 12/70 RIP 30발, 5.56x45mm Warmageddon 80발, 5.45x39mm BT 팩",예
+The Survivalist Path - Eagle-Owl,종합,공장(Factory) 외 맵에서 야시경이나 열화상 조준경 없이 21:00-04:00 사이에 스캐브 6명 사살,"+5,900 EXP, 인식 +0.5 레벨, 예거 Rep +0.02, 40,000 루블, Armasight Vulcan MG 야시경 조준경",예
+The Survivalist Path - Combat Medic,종합,생명력 스킬 레벨 5 달성하기,"+5,900 EXP, 외과술 +2 레벨, 예거 Rep +0.02, 50,000 루블",예
+Ambulance,종합,"레이드에서 휴대용 제세동기 1개, CMS 키트 2개 획득 및 건네주기","+14,800 EXP, 생명력 +1 레벨, 예거 Rep +0.02, 35,000 루블, Grizzly 키트, 골든스타 연고, Surv12 키트 (잠금해제 - 레벨3)",예
+The Huntsman Path - Secured Perimeter,종합,공장(Factory) 사무실 구역(모든 층)에서 PMC 6명 사살,"+9,800 EXP, 예거 Rep +0.02, 37,000 루블, 펜치 엘리트, 공구 세트, 니퍼, 주름진 호스",예
+Reserve,종합,리저브(Reserve)에서 식량 저장고 위치 찾기 후 생존 탈출,"+11,800 EXP, 예거 Rep +0.02, 16,000 루블, 못 상자, 나사 팩, 실리콘 튜브, 부서진 LCD",예
+The Huntsman Path - Forest Cleaning,종합,타르코프 전 지역에서 스캐브 30명 사살,"+5,900 EXP, 예거 Rep +0.02, 55,000 루블, TOZ KS-23M 산탄총, 12/70 flechette (잠금해제 - 레벨3)",예
+The Huntsman Path - Controller,종합,기절 효과를 받고 있는 PMC 2명 사살,"+7,200 EXP, 예거 Rep +0.02, 50,000 루블, NcSTAR ADO P4 조준경",예
+The Huntsman Path - Evil Watchman,종합,세관(Customs) 기숙사 구역에서 PMC 5명 사살,"+10,000 EXP, 예거 Rep +0.02, 75,000 루블, 정보 파일, USB 보안 플래시 드라이브",예
+Fishing Place,종합,레이드에서 TerraGroup Labs 액세스 키카드 2개 획득 및 건네주기,"+18,000 EXP, 예거 Rep +0.02, 40,000 루블, Remington Model 700 소총, FORT Redut-M 방탄복",예
+The Huntsman Path - Trophy,종합,"레샤라(Reshala) 사살, 레샤라의 황금 TT 권총 획득 및 건네주기","+15,300 EXP, 예거 Rep +0.02, 90,000 루블, Surv12 키트, 화약 ""Kite"", 플렉시글라스 조각",예
+The Huntsman Path - Justice,종합,경찰복을 입은 스캐브(레샤라 경호원) 3명 사살,"+12,300 EXP, 예거 Rep +0.02, 80,000 루블, 여행용 연료통, 프로판 탱크, WD-40",예
+The Huntsman Path - Sellout,사살,"킬라(Killa) 사살, 킬라의 헬멧 획득 및 건네주기","+18,000 EXP, 예거 Rep +0.02, 150,000 루블, 정보 파일, IDEA 열쇠, OLI 열쇠, Slickers 초콜릿바, TarCola 캔",예
+The Huntsman Path - Wood Keeper,종합,"슈트르만(Shturman) 사살, 슈트르만의 은닉처 열쇠 획득 및 건네주기","+18,000 EXP, 예거 Rep +0.02, 17,000 루블, 화약 ""Hawk"", VPX 플래시 저장소 모듈, 랩 키카드, Accuracy International AXMC (잠금해제 - 레벨4)",예
+Hunting Trip,종합,지정된 조준경을 장착한 M700 소총으로 50미터 이상 거리에서 슈트르만(Shturman) 사살,"+22,200 EXP, 예거 Rep +0.02, 60,000 루블, VPX 모듈, 이리듐 군용 열화상 모듈, 위상 배열 소자, M700 소총 바리언트 4종 (잠금해제 - 레벨3/4)",예
+The Huntsman Path - Factory Chief,종합,"타길라(Tagilla) 사살, BOSS 모자 획득 및 건네주기","+16,000 EXP, 예거 Rep +0.02, 700,000 루블, 공장 비상 탈출구 열쇠",예
+The Huntsman Path - Eraser - Part 1,종합,글루하(Glukhar) 사살,"+18,300 EXP, 예거 Rep +0.02, 200,000 루블, $5,000, 무기 케이스",예
+The Huntsman Path - Eraser - Part 2,종합,레이더 6명 사살,"+22,500 EXP, 예거 Rep +0.02, 80,000 루블, FLIR RS-32 열화상 조준경, MP-155 Ultima 열화상 카메라 (교환 잠금해제 - 레벨4)",예
+The Tarkov Shooter - Part 1,사살,볼트액션 소총의 가늠쇠를 이용해 40미터 이상 거리에서 스캐브 5명 사살,"+12,300 EXP, 예거 Rep +0.02, 50,000 루블, PU 3.5x 조준경 및 마운트 2종",예
+The Tarkov Shooter - Part 2,사살,"볼트액션 소총을 이용해 40미터 이상 거리에서 다리 피격 3회, 헤드샷 2회 기록","+12,400 EXP, 예거 Rep +0.02, 65,000 루블, Mosin AIM Sports MNG 마운트 및 Umka M33-SET1 조끼",예
+The Tarkov Shooter - Part 3,사살,볼트액션 소총을 이용해 근거리(25미터 미만)에서 PMC 3명 사살,"+10,500 EXP, 예거 Rep +0.02, 70,000 루블, Mosin 개머리판 부품 2종, 카우보이 모자, 적외선 바라클라바",예
+The Tarkov Shooter - Part 4,사살,저격 소총 스킬 레벨 3 달성하기,"+11,800 EXP, 예거 Rep +0.02, 80,000 루블, Mosin 마운트 및 권총 손잡이 2종 (잠금해제 - 레벨2)",예
+The Tarkov Shooter - Part 5,사살,볼트액션 소총을 이용해 세관(Customs)에서 21:00-5:00 사이에 스캐브 8명 사살,"+13,000 EXP, 예거 Rep +0.02, 80,000 루블, Mosin Texas Precision Products 개머리판, PNV-10T 야간투시경",예
+The Tarkov Shooter - Part 6,사살,볼트액션 소총을 이용해 스나이퍼 스캐브 5명 사살,"+13,100 EXP, 예거 Rep +0.02, 85,000 루블, Mosin ATI Monte Carlo 섀시 (잠금해제 - 레벨3), 스키 마스크",예
+The Tarkov Shooter - Part 7,사살,소음기가 장착된 볼트액션 소총을 이용해 45미터 이상 거리에서 PMC 5명 사살,"+13,300 EXP, 예거 Rep +0.02, 85,000 루블, Mosin Witt Machine 개머리판 및 Bramit 소음기 (잠금해제 - 레벨3)",예
+The Tarkov Shooter - Part 8,사살,볼트액션 소총을 이용해 삼림(Woods)에서 단일 레이드에 PMC 3명 사살,"+16,200 EXP, 저격 소총 +1 레벨, 예거 Rep +0.02, 200,000 루블, Mosin Archangel OPFOR 섀시 및 탄창 (잠금해제 - 레벨4), Mosin 저격 소총 (Archangel 바리언트)",예
+Shady Business,획득 및 전달,레이드에서 USB 보안 플래시 드라이브 3개 획득 및 건네주기,"+11,400 EXP, 예거 Rep +0.02, 50,000 루블, SSD 드라이브",예
+The Huntsman Path - Sadist,사살,사니타르(Sanitar) 사살,"+16,300 EXP, 예거 Rep +0.02, 115,000 루블, Trijicon REAP-IR 열화상 조준경, 12/70 AP-20 슬러그 100발, Surv12 키트",아니요
+Hunter,사살,슈트르만(Shturman) 20회 사살,"100,000 루블, 무기 케이스, Prokill 메달 목걸이, SWORD International Mk-18 (잠금해제 - 레벨4)",아니요
+Pest Control,사살,리저브(Reserve) 병영 구역에서 스캐브 10명 사살,"+15,300 EXP, 예거 Rep +0.02, 20,000 루블, PAID AntiRoach 스프레이, 화약 ""Eagle"" 6개, 못 상자, 테르밋",예
+Swift One,사살,갑옷이나 헬멧 없이 삼림(Woods)에서 PMC 15명 사살,"+107,000 EXP, 지구력 +1 레벨, 스트레스 저항 +1 레벨, Train Hard 완장, .338 Lapua Magnum AP 40발, 7.62x39mm MAI AP 100발",아니요
+The Huntsman Path - Relentless,사살,"활성 상태에서 사망하거나 탈출하지 않고 타길라, 킬라, 레샤라, 슈트르만, 글루하, 사니타르 사살","+280,000 EXP, 제작 +2 레벨, 면역 +1 레벨, FLIR RS-32 열화상 조준경, 여행용 연료통, GP 코인 20개",아니요
+The Hermit,탐험,"등대(Lighthouse)에서 예거 친구의 은신처 찾기, 예거에게 보낼 메시지 획득 및 건네주기","+12,000 EXP, 예거 Rep +0.02, 55,000 루블",예
+The Huntsman Path - Outcasts,사살,로그 USEC 요원 10명 사살,"+9,000 EXP, 예거 Rep +0.02, 110,000 루블",예
+Stray Dogs,사살,"데스 나이트(Death Knight), 빅 파이프(Big Pipe), 버드아이(Birdeye) 찾아서 사살","+30,500 EXP, 예거 Rep +0.02, 125,000 루블, SV-98 소총, 마운트, 스코프, 탄창, 7.62x54mm R PS gzh 30발",예
+The Delicious Sausage,탐험,"타르코프 시내(Streets of Tarkov)의 4개 상점(Shestyorochka, Sparja 2곳, Goshan) 정찰, Salty Dog 쇠고기 소시지 획득 및 건네주기","+2,600 EXP, 예거 Rep +0.01, 10,000 루블, 볼트, 너트, 주름진 호스",예
+Cease Fire!,종합,타르코프 시내(Streets of Tarkov)의 클리모프 거리(Klimov Street)로 '생존' 상태로 탈출,"+5,600 EXP, 예거 Rep +0.02, 27,000 루블, ZiD SP-81 신호 권총, 녹색 플레어 탄약",아니요
+Slaughterhouse,사살,주간 공장(Factory)을 포함한 8개 맵에서 근접 무기로 스캐브 10명씩 (총 80명) 사살,"+34,700 EXP, 예거 Rep +0.03, 100,000 루블, SOG Voodoo Hawk 토마호크 (교환 잠금해제 - 레벨4)",아니요
+Broadcast - Part 3,종합,타르코프 시내(Streets of Tarkov)의 오래된 집 내부에서 피 묻은 방송 장소 찾기 후 생존 탈출,"10,800 EXP, 예거 Rep +0.03, 68,000 루블, Surv12 키트 (교환 잠금해제 - 레벨2)",아니요
+Broadcast - Part 4,종합,타르코프 시내(Streets of Tarkov)에서 컬티스트 모임 장소 찾기 후 생존 탈출,"22,600 EXP, 예거 Rep +0.03, 94,000 루블, 여행용 연료통",아니요
+The Huntsman Path - Administrator,사살,"타르코프 시내(Streets of Tarkov)의 파인우드 호텔에서 약탈자(Looters) 20명 처치, 호텔 안뜰에서 노란색 신호탄 발사","+15,600 EXP, 예거 Rep +0.02, 81,000 루블, Remington Model 700 소총",아니요

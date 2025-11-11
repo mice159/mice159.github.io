@@ -1,0 +1,35 @@
+임무(Quests),종류,목표,보상,선행 퀘스트
+히포크라테스 선서 (Hippocratic Oath),종합,500 달러(Dollar) 건네주기,"종합 500 달러 건네주기, 테라피스트 우호도 +0.2",아니요
+호기심으로부터 (Out of Curiosity),획득 및 전달,"세관(Customs)에서 화학물질을 싣고 있는 차량 찾기, 차량에 MS2000 마커 설치하기, 살아서 탈출하기","+7,700 EXP, 테라피스트 우호도 +0.04, 170,000 루블, 주사기 보관함 1개",아니요
+행복배달부 팻아저씨 - 파트 2 (Postman Pat - Part 2),획득 및 전달,테라피스트에게 배달부에게서 찾은 편지 건네주기,"+3,500 EXP, 테라피스트 우호도 +0.02, 5,000 루블, Salewa 응급 치료 키트 (잠금해제 - 레벨2)",예
+해변으로 떠난 휴가 (Seaside Vacation),획득 및 전달,"등대(Lighthouse)에서 정보원의 서류가방 찾기, 발견한 물건 건네주기","+8,000 EXP, 테라피스트 우호도 +0.02, 50,000 루블, Aluminum splint 알루미늄 부목 (잠금해제 - 레벨3)",예
+하루에 사과 한개가 의사를 멀리하게 해준다 (An Apple a Day Keeps the Doctor Away),종합,"400,000 루블(Rouble) 건네주기","종합 400,000 루블 건네주기, 체력 +2 레벨",예
+청소부 (Decontamination Service),사살,인터체인지(Interchange)에서 특정 장비를 착용한 상태로 스캐브(Scav)를 근거리(60미터 이내)에서 40명 사살하기,"+30,500 EXP, 테라피스트 우호도 +0.05, 예거 우호도 +0.01, 300,000 루블, Morphine 모르핀 주사기 3개, IFAK 3개, GP-7 방독면 3개",예
+진통제 (Painkiller),획득 및 전달,"레이드에서 모르핀 주사기 4개 획득하기, 주사기 4개 건네주기","+4,500 EXP, 테라피스트 우호도 +0.03, 17,000 루블, Disposable syringe 5개, Silicone tube 1개, Analgin painkillers 2개, Pile of meds 약더미 2개",예
+재고 부족 (Shortage),획득 및 전달,"레이드에서 Salewa 응급 치료 키트 3개 획득하기, Salewa 응급 치료 키트 3개 건네주기","+2,000 EXP, 테라피스트 우호도 +0.03, 15,000 루블, Car 차량용 응급 치료 키트 2개, Analgin painkillers 4개, Immobilizing Splint 고정용 부목 4개",예
+자동차 수리 (Car Repair),획득 및 전달,"레이드에서 자동차 배터리 4개 획득, 점화 플러그 8개 획득, 자동차 배터리 4개 건네주기, 점화 플러그 8개 건네주기","+6,900 EXP, 테라피스트 우호도 +0.04, 1,500 달러, Grizzly 응급 치료 키트 1개, eTG-change 주사기 1개, Adrenaline 주사기 1개",예
+인구조사 (Population Census),획득 및 전달,"거주자 정보가 포함된 일지 획득하기, 일지 건네주기","+6,900 EXP, 테라피스트 우호도 +0.02, 35,000 루블, Salewa 응급 치료 키트 2개, Medical tools 의료 도구 2개",아니요
+의료 개인 정보 보호 - 파트 5 (Health Care Privacy - Part 5),Multi,"야간 공장(Factory)에서 물건을 놓아둘 장소 찾기, Gunpowder ""Kite"" 화약 3개를 구해서 지정된 장소에 놔두기","+7,300 EXP, 테라피스트 우호도 +0.04, 35,000 루블, 의약품 보관함 1개",예
+의료 개인 정보 보호 - 파트 4 (Health Care Privacy - Part 4),스킬,건강 스킬 4레벨 도달하기,"+6,000 EXP, 테라피스트 우호도 +0.04, 29,000 루블, Grizzly 응급 치료 키트 2개, NaCl 생리식염수 2개",아니요
+의료 개인 정보 보호 - 파트 3 (Health Care Privacy - Part 3),탐색,"헬스 리조트 의료 서비스 책임자가 소유했던 밴 차량 찾기, 혈액 샘플 획득, 혈액 샘플 건네주기, 살아서 탈출하기","+5,900 EXP, 테라피스트 우호도 +0.04, 26,000 루블, Morphine 주사기 2개, Adrenaline 주사기 2개, Morphine 주사기 (잠금해제 - 레벨4)",예
+의료 개인 정보 보호 - 파트 2 (Health Care Privacy - Part 2),탐색,"헬스 리조트의 방을 조사해서 테라그룹의 연구에 대한 문서 입수하기, 입수한 정보 건네주기, 살아서 탈출하기","+5,900 EXP, 테라피스트 우호도 +0.04, 24,000 루블, Salewa 응급 치료 키트 4개",예
+의료 개인 정보 보호 - 파트 1 (Health Care Privacy - Part 1),탐색,"해안선(Shoreline)에서 첫 번째, 두 번째, 세 번째 구급차를 찾아 MS2000 마커 설치하기","+4,800 EXP, 테라피스트 우호도 +0.03, 22,000 루블, IFAK 개인용 응급 치료 키트 2개, IFAK (잠금해제 - 레벨3)",예
+위험한 길 (Dangerous Road),탐험,타르코프 시내(Streets of Tarkov)에서 Primorsky Ave Taxi V-Ex를 통해 탈출하기,"+7,800 EXP, 테라피스트 우호도 +0.01, 45,000 루블, Aluminum splint 2개, CALOK-B 2개",아니요
+위생 기준 - 파트 2 (Sanitary Standards - Part 2),종합,"레이드에서 가스 분석기 2개 획득, 가스 분석기 2개 건네주기","+4,500 EXP, 테라피스트 우호도 +0.03, 30,000 루블, Propital 프로피탈 주사기 1개",예
+위생 기준 - 파트 1 (Sanitary Standards - Part 1),획득 및 전달,"레이드에서 가스 분석기 획득, 가스 분석기 건네주기","+2,200 EXP, 테라피스트 우호도 +0.03, 14,000 루블, Car 차량용 응급 치료 키트 2개, Car 키트 (잠금해제 - 레벨1)",예
+위기 (Crisis),획득 및 전달,"레이드에서 휴대용 제세동기 5개, 검안경 5개, LEDX 3개, Pile of meds 20개, OLOLO Multivitamins 10개 획득 및 건네주기","+97,000 EXP, 면역력/활력/수술 +2 레벨, 의약품 보관함 1개, AFAK 5개, SJ9 주사기 5개",아니요
+운동선수 (Athlete),스킬,건강 스킬 10레벨 도달하기,"+21,900 EXP, 테라피스트 우호도 +0.04, 110,000 루블, Dundukk 스포츠 선글라스 1개, Zagustin 3개, Adrenaline 주사기 3개, Adrenaline 주사기 (잠금해제 - 레벨4)",예
+연락 두절 (Lost Contact),탐색,"등대(Lighthouse)의 오두막(chalet) 지역에서 실종된 사람들 찾기, 살아서 탈출하기","+7,000 EXP, 테라피스트 우호도 +0.02, 40,000 루블, Grizzly 응급 치료 키트 (교환 잠금해제 - 레벨2)",예
+약사 (Pharmacist),획득 및 전달,"세관(Customs)에서 의료장비가 들어있는 가방 획득, 테라피스트에게 가방 건네주기","+5,700 EXP, 테라피스트 우호도 +0.04, 25,000 루블, AFAK 1개, Pile of meds 3개, 6B47 헬멧 (래그맨 우호도 레벨2 잠금해제)",예
+신뢰 회복 (Trust Regain),획득 및 전달,"Dorm room 303 key, ZB-014 key, Military checkpoint key, Gas station storage room key 건네주기",테라피스트 우호도 +0.25,아니요
+식량 보급 (General Wares),종합,"레이드에서 작은 쇠고기 스튜 통조림 15개 획득, 통조림 15개 건네주기","+4,800 EXP, 테라피스트 우호도 +0.03, 30,000 루블, pacific saury 4개, Iskra 전투식량 2개, Majaica coffee 2개",예
+사설 진료소 (Private Clinic),종합,"레이드에서 검안경 획득, LEDX 피부 트랜스일루미네이터 획득, 검안경/LEDX 건네주기","+30,600 EXP, 테라피스트 우호도 +0.05, 130,000 루블, T H I C C 물품 보관함 1개, Health Resort east wing room 306 key 1개",예
+보급 계획 (Supply Plans),획득 및 전달,"삼림(Woods) 제재소 숙소에서 보안 케이스 0052 입수, 살아서 탈출하기, 보안 케이스 건네주기","+7,500 EXP, 테라피스트 우호도 +0.04, 75,000 루블, CMS 휴대용 수술 키트 1개",아니요
+병력 (Disease History),획득 및 전달,"리저브(Reserve)맵에서 [의무 기록 #1], [의무 기록 #2] 입수 및 건네기","+7,200 EXP, 테라피스트 우호도 +0.03, 30,000 루블, Grizzly 응급 치료 키트 1개, Ibuprofen 1개, CALOK-B 5개",예
+물병자리 작전 - 파트 2 (Operation Aquarius - Part 2),사살,세관(Customs)에서 스캐브(Scav) 15명 사살하기,"+3,400 EXP, 테라피스트 우호도 +0.03, 예거 우호도 +0.01, 20,000 루블, Esmarch 3개, Aluminum splint 1개, Army bandage (잠금해제 - 레벨2)",예
+물병자리 작전 - 파트 1 (Operation Aquarius - Part 1),획득 및 전달,"세관(Customs) 기숙사에서 물이 숨겨진 호실 찾기, 살아서 탈출하기","+3,300 EXP, 테라피스트 우호도 +0.03, 스키어 우호도 -0.02, 14,000 루블, Water 0.6L 물평 5개, Water filter 1개",예
+마약 밀매 (Drug Trafficking),종합,"등대(Lighthouse)의 숨겨진 마약 연구소 찾기, 연구소에 WI-FI 카메라 설치하기","+7,500 EXP, 테라피스트 우호도 +0.03, 45,000 루블, Propital 1개, eTG-change 1개, Zagustin 1개",아니요
+동료들 - 파트 3 (Colleagues - Part 3),획득 및 전달,"세니타(Sanitar)를 죽이지 않기, 레이드에서 TerraGroup Labs keycard 10개 획득 및 건네주기, AHF1-M 주사기, 3-(b-TG) 주사기 획득 및 건네주기","+15,800 EXP, 테라피스트 우호도 +0.04, 펜스 우호도 +0.25, 150,000 루블, TerraGroup Labs keycard (Black) 1개, 의약품 보관함 1개, L1 주사기 3개, Meldonin 3개, ""Obdolbos 2"" 5개, Grizzly 4개, TerraGroup Labs keycard (Violet) 2개",아니요
+동료들 - 파트 2 (Colleagues - Part 2),획득 및 전달,"세니타의 외과용 장비 획득 및 건네주기, 세니타의 검안경 획득 및 건네주기","+12,400 EXP, 테라피스트 우호도 +0.04, 60,000 루블, Surv12 야전 수술 키트 1개, P22 주사기 1개",예
+동료들 - 파트 1 (Colleagues - Part 1),탐험,"헬스 리조트, 부두, 별장으로 보내진 그룹 찾기, 살아서 탈출하기","+12,300 EXP, 테라피스트 우호도 +0.04, 45,000 루블, SJ1 주사기 2개, SJ6 주사기 2개",예
+도시 약품 (Urban Medicine),획득 및 전달,"타르코프 시내(Streets of Tarkov)에 위치한 화학 실험실 찾기, 약물이 담긴 보관함 찾기, 보관함 건네주기","+10,200 EXP, 테라피스트 우호도 +0.02, 51,000 루블, Adrenaline 주사기 2개, Zagustin 1개",아니요

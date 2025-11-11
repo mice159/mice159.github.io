@@ -1,0 +1,43 @@
+임무(Quests),종류,목표,보상,선행 퀘스트
+낚시 장비 (Fishing Gear),종합,"해안선 방파제 옆 숨겨둔 보트 찾기, SV-98 저격 소총 숨겨두기, 멀티툴 숨겨두기, 살아서 탈출하기","+4,800 EXP, 피스키퍼 Rep +0.02, 700 달러, UNTAR 헬멧 1개, SIG ROMEO4 (잠금해제 - 레벨2), M1A 소총 (잠금해제 - 레벨2)",예
+Tigr 사파리 (Tigr Safari),탐색,"세관(Customs)에서 Tigr 차량 3대에 MS2000 마커 설치하기, 살아서 탈출하기","+5,900 EXP, 피스키퍼 Rep +0.03, 900 달러, Thunderbolt 체스트 리그 1개, M67 수류탄 2개, B&T MP9 (잠금해제 - 레벨1)",예
+고철 (Scrap Metal),탐색,"해안선(Shoreline)에서 T-90 전차 3대에 MS2000 마커 설치하기, 살아서 탈출하기","+5,900 EXP, 피스키퍼 Rep +0.03, 900 달러, HK MP5 (해군형 3점사) 1정, 9x19mm Pst gzh 120발, HK MP5 SD (잠금해제 - 레벨2)",예
+매의 눈 (Eagle Eye),획득 및 전달,"해안선에서 UAV 추락 지점 2곳 찾기, 2개의 SAS 디스크 회수 및 건네주기","+6,600 EXP, 피스키퍼 Rep +0.03, 900 달러, ELCAN SpecterDR 1개, Leupold Mark 4 HAMR 1개, SIG MPX Silenced (잠금해제 - 레벨2)",예
+인도주의적 보급품 (Humanitarian Supplies),탐색/사살,"해안선 트럭 2대에 MS2000 마커 설치하기, MRE 전투 식량 5개 구해서 건네주기, UN 군복 착용 후 해안선에서 스캐브 10명 사살하기","+11,500 EXP, 피스키퍼 Rep +0.03, 800 달러, 무기 부품 2개, AK-74 Hexagon 소음기 (스키어 Rep 레벨2 잠금해제)",예
+광신도 - 파트 1 (The Cult - Part 1),탐험,"해안선(Shoreline)에서 실종된 정보원 찾기, 살아서 탈출하기","+6,200 EXP, 피스키퍼 Rep +0.02, 700 달러, Golden neck chain 3개, 5.56x45mm M856A1 (잠금해제 - 레벨2)",예
+광신도 - 파트 2 (The Cult - Part 2),탐험,삼림/세관/해안선에 있는 종교의식 현장 4곳에 MS2000 마커 설치하기,"+7,500 EXP, 피스키퍼 Rep +0.03, 850 달러, KAC SR-25 지정사수 소총 1정",예
+스파 관광 - 파트 1 (Spa Tour - Part 1),사살,해안선(Shoreline)에서 12 게이지 산탄총을 사용하여 스캐브를 헤드샷으로 7명 사살하기,"+7,400 EXP, 피스키퍼 Rep +0.03, 950 달러, SIG MPX Silenced 1정, MPX 탄창 3개, 9x19mm RIP 90발, Health Resort west wing 306 key 1개",예
+스파 관광 - 파트 2 (Spa Tour - Part 2),탐험,"해안선 헬리콥터/안전한 길목에 MS2000 마커 설치하기, 살아서 탈출하기","+6,300 EXP, 피스키퍼 Rep +0.02, 900 달러, 0.2BTC 비트코인 1개, M67 수류탄 (잠금해제 - 레벨3)",예
+스파 관광 - 파트 3 (Spa Tour - Part 3),획득 및 전달,"레이드에서 WD-40, 창문 세정제 2개, 주름진 호스 2개, 옥스 표백제 2개 획득 및 건네주기","+7,600 EXP, 피스키퍼 Rep +0.03, 800 달러, KRISS Vector Gen.2 9x19 1정, M67 수류탄 5개, Glock ""Big Stick"" 탄창 4개, Toolset 2개",예
+스파 관광 - 파트 4 (Spa Tour - Part 4),탐색,"헬스 리조트 동/서쪽 건물 발전기 찾기, 살아서 탈출하기","+7,700 EXP, 피스키퍼 Rep +0.03, 1,100 달러, 자동차 배터리 1개",예
+스파 관광 - 파트 5 (Spa Tour - Part 5),획득 및 전달,헬스 리조트 폐쇄된 구역 열쇠 획득 및 건네주기,"+6,500 EXP, 피스키퍼 Rep +0.02, 980 달러, RB-AO key 1개",예
+스파 관광 - 파트 6 (Spa Tour - Part 6),평판,"8,000 달러 건네주기","+9,500 EXP, 피스키퍼 Rep +0.04, 7.62x51mm M62 예광탄 (잠금해제 - 레벨4)",예
+스파 관광 - 파트 7 (Spa Tour - Part 7),획득 및 전달,"레이드에서 모르핀 주사기 4개, 알칼리 세제 2개, 주름진 호스 2개, 5L 프로판 탱크 획득 및 건네주기","+9,700 EXP, 피스키퍼 Rep +0.04, 예거 Rep -0.01, RB-ST key 1개",예
+화물 X - 파트 1 (Cargo X - Part 1),획득 및 전달,해안선 헬스 리조트 동관 컴퓨터실에서 정보 입수 및 건네주기,"+8,200 EXP, 피스키퍼 Rep +0.03, 700 달러, 권총 보관함 1개, Colt M45A1 권총 2정, M1911A1 탄창 6개",예
+화물 X - 파트 2 (Cargo X - Part 2),탐험,"헬스 리조트 드럼통 보관 방 찾기, 화물의 두 번째 부분 정보 입수 및 건네주기","+8,300 EXP, 피스키퍼 Rep +0.03, 850 달러, Colt M4A1 소총 1정, Magpul PMAG 30 탄창 3개, KAC QDSS NT-4 소음기 (잠금해제 - 레벨3)",예
+화물 X - 파트 3 (Cargo X - Part 3),Multi,"해안선(Shoreline)에서 테라그룹이 숨긴 화물 찾기, 살아서 탈출하기","+8,400 EXP, 피스키퍼 Rep +0.03, 900 달러, HK MP7A1 기관단총 1정",예
+청부살인 - 파트 1 (Wet Job - Part 1),사살,"해안선에서 소음기가 장착된 M4A1, ADAR 또는 TX-15을 사용하여 스캐브 10명 사살하기","+11,400 EXP, 피스키퍼 Rep +0.04, 1,100 달러, SMT 보안 자기 테이프 카세트 2개",예
+청부살인 - 파트 2 (Wet Job - Part 2),탐험,"해안선 어부의 거처 찾기, 낚시 테이블에 MS2000 마커 설치하기, 살아서 탈출하기","+9,700 EXP, 피스키퍼 Rep +0.03, 1,300 달러, Ushanka 2개, Half-mask 2개, Eberlestock F5 배낭 1개, 60발 Magpul PMAG D-60 (교환 잠금해제 - 레벨4)",예
+청부살인 - 파트 3 (Wet Job - Part 3),탐험,"해안선(Shoreline)에서 아르티움의 자동차 찾기, 살아서 탈출하기","+8,200 EXP, 피스키퍼 Rep +0.03, 1,500 달러, NcSTAR ADO P4 1개, HK 416A5 (잠금해제 - 레벨3)",예
+청부살인 - 파트 4 (Wet Job - Part 4),획득 및 전달,해안선 리조트의 세입자 목록 입수 및 건네주기,"+8,300 EXP, 피스키퍼 Rep +0.03, 1,700 달러, Shoreline 헬스리조트 지도 1개, Desert Tech MDR 7.62x51 (잠금해제 - 레벨4)",예
+청부살인 - 파트 5 (Wet Job - Part 5),획득 및 전달,해안선(Shoreline)에서 아르티움이 했던 일에 대한 정보 입수 및 건네주기,"+8,400 EXP, 피스키퍼 Rep +0.03, 1,700 달러, HighCom Trooper TFO 방탄복 1개, Remington R11 RSASS (잠금해제 - 레벨4), AFAK (잠금해제 - 레벨4)",예
+교관 (Mentor),종합,"50,000 유로 건네주기",저격소총 +3 레벨,아니요
+청부살인 - 파트 6 (Wet Job - Part 6),스킬,저격소총 스킬 레벨 7 달성하기,"+8,500 EXP, 피스키퍼 Rep +0.03, 3,500 달러, DVL-10 Saboteur 1정, 7.62x51mm M61 50발, FN40GL Mk2 유탄발사기 (교환 잠금해제 - 레벨4)",예
+안내자 (The Guide),탐험,"모든 맵 (9개 맵)에서 ""생존(Survived)"" 상태로 연속 탈출하기","+42,600 EXP, 피스키퍼 Rep +0.04, 25,000 달러 이상, EOTech HHS-1, Ops-Core SLAAP, AR-15 Vltor MUR-1S (모두 잠금해제 - 레벨4)",예
+견본 (Samples),획득 및 전달,"레이드에서 M.U.L.E., ""Obdolbos"", Meldonin, AHF1-M, P22, L1, 3-(b-TG) 주사기 획득 및 건네주기 (총 7종)","+15,300 EXP, 피스키퍼 Rep +0.04, 4,000 달러, 탄약 보관함 1개, DS Arms SA-58 1정, Ops-Core FAST 바이저 (잠금해제 - 레벨4), Team Wendy EXFIL 헬멧 (잠금해제 - 레벨4)",예
+테라그룹 직원 (TerraGroup Employee),획득 및 전달,"연구소(The Lab)에서 세니타의 작업 공간 찾기, 세니타의 작업 정보 입수, 파란색 테이프로 표시된 플래시 드라이브 건네주기","+17,000 EXP, 피스키퍼 Rep +0.04, 5,000 달러, Desert Tech MDR 7.62x51 4개, PMAG 20 탄창 3개, 7.62x51mm M80 80발, Team Wendy EXFIL (Coyote Brown) (잠금해제 - 레벨4), Mesa Tactical Crosshair (잠금해제 - 레벨4)",예
+무기 대여 - 파트 2 (Lend-Lease - Part 2),획득 및 전달,"레이드에서 Virtex 프로그래밍 가능한 프로세서 2개, 군용 COFDM 무선 신호 전송기 획득 및 건네주기","+21,000 EXP, 피스키퍼 Rep +0.04, 2,000 달러, HK 416A5 2정, 60발 탄창 4개, 5.56x45mm M995 300발, Crye Precision AirFrame (Tan) (잠금해제 - 레벨4)",예
+평화 유지 임무 (Peacekeeping Mission),사살,"UN 유니폼 (UNTAR 헬멧, MF-UNTAR 방탄복, M4a1 소총)을 착용한 상태로 5개 맵에서 스캐브 12명 사살 (총 60명)","+25,500 EXP, 피스키퍼 Rep +0.04, Remington M700 1정, 7.62x51mm M61 30발, GPNVG-18 야간투시경 2개, CQC Osprey MK4A (잠금해제 - 레벨4)",예
+군사기밀 (Classified Technologies),획득 및 전달,리저브(Reserve) T-90M 지휘관 제어 패널 입수 및 건네주기,"+7,200 EXP, 피스키퍼 Rep +0.02, 800 달러, 5.7x28mm R37.F 200발",예
+개정 작업 - 리저브 (Revision - Reserve),탐색,"리저브(Reserve)에서 BMP-2 4대, LAV III 1대, T-90 전차 1대 찾아서 MS2000 마커 설치하기","+7,300 EXP, 피스키퍼 Rep +0.03, 800 달러, 5.56x45mm Warmageddon 15개",예
+청소부 (The Cleaner),사살,리저브(Reserve)에서 레이더 40명 사살하기,"+84,000 EXP, 지정사수소총/기관단총/돌격소총 +1/+2/+2 레벨, 3,000 유로",아니요
+Special Equipment,획득 및 전달,"레이드에서 VPX 5개, UHF RFID Readers 5개, Virtex 5개, COFDM 5개, Military flash drives 4개 획득 및 건네주기","+177,000 EXP, Weapon case 1개, TerraGroup Labs keycard 7개, Iridium 열화상 모듈",아니요
+화물 X - 파트 4 (Cargo X - Part 4),탐색,"등대(Lighthouse) 지역에서 테라그룹 화물을 찾아 MS2000 마커 설치하기, 살아서 탈출하기","+8,600 EXP, 피스키퍼 Rep +0.02, 800 달러, MSA ACH TC-2002 헬멧 (잠금해제 - 레벨3)",예
+Counteraction,사살,"등대(Lighthouse) 전 지역에서 BEAR PMC 20명 사살하기, BEAR PMC 인식표 20개 건네주기","+22,000 EXP, 피스키퍼 Rep +0.03, 2,300 달러, SSD 드라이브 1개, 정보 파일 1개, Topographic survey maps 1개, 23x75mm ""Zvezda"" (스키어 Rep 레벨4 잠금해제)",아니요
+Overpopulation,사살,등대(Lighthouse)의 오두막(cottage) 지역의 스캐브 12명 사살하기,"+12,000 EXP, 피스키퍼 Rep +0.02, 1,100 달러, DS Arms SA-58 AUT (교환 잠금해제 - 레벨2)",예
+개정 작업 - 등대 (Revision - Lighthouse),탐색,"등대에서 BRDM 2대, Stryker 2대 찾아 MS2000 마커 설치하기","+7,800 EXP, 피스키퍼 Rep +0.03, 850 달러, FN Five-seveN MK2 (잠금해제 - 레벨2)",예
+전리품 (Trophies),획득 및 전달,"레이드에서 레벨 50 이상의 BEAR PMC 인식표 20개, USEC PMC 인식표 20개 건네주기","+137,000 EXP, 탄약 보관함 4개, ""UNTAR"" 완장 1개, FN40GL Mk2 유탄발사기 1개, 40x46mm M433 10발",아니요
+개정 작업 - 타르코프 시내 (Revision - Streets of Tarkov),탐색,"타르코프 시내에서 Stryker 3대 찾아 MS2000 마커 설치하기, 살아서 탈출하기","+8,600 EXP, 피스키퍼 Rep +0.02, 450 달러, FN SCAR-L (FDE) CQC (잠금해제 - 레벨2)",아니요
+도로 폐쇄 (Road Closed),탐험,"타르코프 시내에서 화물 수송대 찾기, 매복 지점 찾기, 살아서 탈출하기","+10,500 EXP, 피스키퍼 Rep +0.02, 62,300 루블, HK MP7A1 1정, MP7 탄창 3개, 4.6x30mm Action SX 80발",아니요
+세계 최악의 직업 (Worst Job in the World),사살,AR-15 시리즈 소총을 사용하여 100미터 이상의 거리에 있는 스캐브 30명 사살하기,"+15,400 EXP, 피스키퍼 Rep +0.03, M203 40mm 유탄발사기 (교환 잠금해제 - 레벨3), 40x46mm M386 (HE) (잠금해제 - 레벨3)",아니요
+당신의 차량에 서비스가 필요합니다 (Your Car Needs a Service),획득 및 전달,타르코프 시내 카 딜러십 매니저 사무실에서 디지털 저장 장치 획득 및 건네주기,"+31,400 EXP, 피스키퍼 Rep +0.03, 1,000 달러",아니요

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게임 지도 & 퀘스트 가이드</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <h1>지도 보기</h1>
+    <nav class="nav">
+      <a href="quests.html" class="nav-link">퀘스트</a>
+      <a href="index.html" class="nav-link active">지도</a>
+    </nav>
+  </header>
+  <main class="layout">
+    <section class="map-section" style="flex: 1 1 auto;">
+      <div class="map-toolbar">
+        <button id="clearMarkersBtn" class="btn">모두 지우기</button>
+        <label class="toggle"><input type="checkbox" id="toggleGrid" checked> 그리드</label>
+      </div>
+      <div class="map-tabs">
+        <button class="map-tab" data-map="customs">Customs</button>
+        <button class="map-tab" data-map="woods">Woods</button>
+        <button class="map-tab" data-map="factory">Factory</button>
+        <button class="map-tab" data-map="reserve">Reserve</button>
+        <button class="map-tab" data-map="lighthouse">Lighthouse</button>
+        <button class="map-tab" data-map="shoreline">Shoreline</button>
+        <button class="map-tab" data-map="interchange">Interchange</button>
+        <button class="map-tab" data-map="streets">Streets of Tarkov</button>
+        <button class="map-tab" data-map="lab">The Lab</button>
+      </div>
+      <div id="map" class="map show-grid" role="img" aria-label="게임 월드 지도"></div>
+      <div id="mapImageContainer" style="display:none; justify-content:center; align-items:center; height:100%; position:absolute; left:0; top:0; width:100%; background:rgba(0,0,0,0.92);"><img id="mapImage" src="" alt="맵 이미지" style="max-width:100%; max-height:100%; box-shadow:0 4px 24px #000"></div>
+    </section>
+    <aside class="detail-panel">
+      <div class="detail-container">
+        <h2>매핑된 퀘스트</h2>
+        <div id="mappedList" class="mapped-list" aria-live="polite"></div>
+        <div class="legend">
+          <h3>범례</h3>
+          <ul id="legendList" class="legend-list"></ul>
+        </div>
+      </div>
+    </aside>
+  </main>
+  <footer class="app-footer">
+    <span>EFT 트레이더 · 지도 중심 보기</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="map.js"></script>
+  <noscript>이 앱을 사용하려면 자바스크립트를 활성화하세요.</noscript>
+</body>
+  
+</html>
+
+
