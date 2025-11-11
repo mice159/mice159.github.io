@@ -345,6 +345,14 @@ function loadMappedSet() {
   } catch { return new Set(); }
 }
 
+// 매핑 순서 보존용 배열
+function loadMappedArray() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.mappedSet);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
 function saveMappedSet(set) {
   localStorage.setItem(STORAGE_KEYS.mappedSet, JSON.stringify(Array.from(set)));
 }

@@ -117,7 +117,7 @@ body {
   background: rgba(255,255,255,0.02);
 }
 .quest-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.quest-title { font-size: 14px; font-weight: 600; }
+.quest-title { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .quest-actions { display: flex; align-items: center; gap: 8px; }
 .btn {
   background: var(--accent);
@@ -152,12 +152,22 @@ body {
   position: relative;
   flex: 1;
   background-color: #0c0f16;
+  /* 지도 이미지를 CSS 변수로 주입 (그리드와 함께 레이어링) */
+  background-image: var(--map-image, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   overflow: hidden;
 }
-.map.show-grid { background-image:
-  linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
-  linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
+.map.show-grid {
+  /* 그리드를 최상단 레이어로, 지도 이미지는 마지막 레이어로 배치 */
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px),
+    var(--map-image, none);
+  background-size: 40px 40px, 40px 40px, contain;
+  background-position: top left, top left, center;
+  background-repeat: repeat, repeat, no-repeat;
 }
 
 .marker {
@@ -204,6 +214,8 @@ body {
 }
 .mapped-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .mapped-title { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+.mapped-title { flex: 1; min-width: 0; }
+.mapped-title .title-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* Kappa 배지 */
 .kappa-badge {
@@ -217,14 +229,35 @@ body {
 .kappa-yes { background: rgba(74,210,149,0.15); color: #8ff0c1; border-color: rgba(74,210,149,0.35); }
 .kappa-no { background: rgba(170,177,199,0.08); color: #aab1c7; border-color: #2a3140; }
 
+.map-badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #1a2130;
+  color: #c7d2ee;
+  margin-left: 6px;
+}
+.map-badge.map-none { background: rgba(255,107,107,0.12); color: #ffb3b3; border-color: rgba(255,107,107,0.35); }
+
+.order-badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #243049;
+  color: #d6e2ff;
+  margin-left: 6px;
+}
+
 .app-footer { height: 32px; display: flex; align-items: center; padding: 0 12px; color: var(--muted); border-top: 1px solid var(--border); background: var(--panel); }
 
 /* 모달 */
 .modal { position: fixed; inset: 0; display: none; }
 .modal.hidden { display: none; }
-.modal:not(.hidden) { display: block; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
-.modal-content { position: relative; width: min(720px, 92vw); margin: 8vh auto; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.modal:not(.hidden) { display: block; z-index: 2000; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); z-index: 0; }
+.modal-content { position: relative; width: min(720px, 92vw); margin: 8vh auto; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1; }
 .modal-close { position: absolute; right: 10px; top: 8px; background: transparent; border: 0; color: var(--muted); font-size: 22px; cursor: pointer; }
 
 .map-tabs {

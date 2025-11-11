@@ -35,7 +35,6 @@
         <button class="map-tab" data-map="lab">The Lab</button>
       </div>
       <div id="map" class="map show-grid" role="img" aria-label="게임 월드 지도"></div>
-      <div id="mapImageContainer" style="display:none; justify-content:center; align-items:center; height:100%; position:absolute; left:0; top:0; width:100%; background:rgba(0,0,0,0.92);"><img id="mapImage" src="" alt="맵 이미지" style="max-width:100%; max-height:100%; box-shadow:0 4px 24px #000"></div>
     </section>
     <aside class="detail-panel">
       <div class="detail-container">
@@ -48,11 +47,21 @@
       </div>
     </aside>
   </main>
+
+  <!-- 지도 페이지 전용 모달 -->
+  <div id="mapQuestModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button id="mapModalClose" class="modal-close" aria-label="닫기">×</button>
+      <div id="mapModalBody"></div>
+    </div>
+  </div>
   <footer class="app-footer">
     <span>EFT 트레이더 · 지도 중심 보기</span>
   </footer>
 
   <script src="data.js"></script>
+  <script src="quest_details.js"></script>
   <script src="map.js"></script>
   <noscript>이 앱을 사용하려면 자바스크립트를 활성화하세요.</noscript>
 </body>
