@@ -4,7 +4,6 @@ const mapDom = {
   map: null,
   clearMarkersBtn: null,
   toggleGrid: null,
-  legendList: null,
   mappedList: null,
   modal: null,
   modalBody: null,
@@ -13,19 +12,50 @@ const mapDom = {
 
 const markerByQuestId = new Map();
 let currentMapName = null; // 현재 선택된 맵 코드 (customs, woods, ...)
+let zoomState = { zoom: 1, panX: 0, panY: 0 };
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 5;
+const ZOOM_STEP = 1.2;
+function getImmutablePosition(quest) {
+  try {
+    const imm = (window && window.IMMUTABLE_POSITIONS) || {};
+    const entry = imm[quest.id];
+    if (!entry) return null;
+    // 단일 객체 지원(하위 호환)
+    if (!Array.isArray(entry)) {
+      if (entry && typeof entry.x === "number" && typeof entry.y === "number") return entry;
+      return null;
+    }
+    // 배열: 맵 코드로 선택
+    const byArray = entry;
+    // 현재 선택된 맵 우선
+    const mapCode = currentMapName || detectQuestMap(quest);
+    if (mapCode) {
+      const hit = byArray.find(it => (it && typeof it.x === "number" && typeof it.y === "number" && String(it.map || "").toLowerCase() === String(mapCode).toLowerCase()));
+      if (hit) return { x: hit.x, y: hit.y };
+    }
+    // 맵이 비어있는 첫 좌표 또는 첫 요소
+    const emptyMap = byArray.find(it => it && (it.map === "" || it.map == null) && typeof it.x === "number" && typeof it.y === "number");
+    if (emptyMap) return { x: emptyMap.x, y: emptyMap.y };
+    const first = byArray.find(it => it && typeof it.x === "number" && typeof it.y === "number");
+    if (first) return { x: first.x, y: first.y };
+  } catch {}
+  return null;
+}
 
 // 퀘스트 텍스트에서 맵 코드 추출 (quests.js와 동일 규칙)
 function detectQuestMap(quest) {
   const text = `${quest.title || ""} ${quest.description || ""}`.toLowerCase();
   const patterns = [
-    { code: "customs", re: /\bcustoms?\b/ },
-    { code: "woods", re: /\bwoods?\b/ },
-    { code: "factory", re: /\bfactory\b/ },
-    { code: "reserve", re: /\breserve\b/ },
-    { code: "lighthouse", re: /\blighthouse\b/ },
-    { code: "shoreline", re: /\bshoreline\b/ },
-    { code: "interchange", re: /\binterchange\b/ },
-    { code: "streets", re: /\bstreets of tarkov\b|\bstreets\b/ },
+    { code: "customs", re: /\bcustoms?\b|세관/ },
+    { code: "woods", re: /\bwoods?\b|삼림/ },
+    { code: "factory", re: /\bfactory\b|팩토리/ },
+    { code: "reserve", re: /\breserve\b|리저브/ },
+    { code: "lighthouse", re: /\blighthouse\b|등대/ },
+    { code: "shoreline", re: /\bshoreline\b|해안선/ },
+    { code: "interchange", re: /\binterchange\b|인터체인지/ },
+    { code: "streets", re: /\bstreets of tarkov\b|\bstreets\b|타르코프\s*시내/ },
+    { code: "ground_zero", re: /\bground\s*zero\b|그라운드\s*제로/ },
     { code: "lab", re: /\bthe lab\b|\blabs?\b/ }
   ];
   for (const p of patterns) {
@@ -44,6 +74,7 @@ function mapCodeToLabel(code) {
     shoreline: "Shoreline",
     interchange: "Interchange",
     streets: "Streets of Tarkov",
+    ground_zero: "Ground Zero",
     lab: "The Lab"
   };
   return labels[code] || code;
@@ -62,7 +93,28 @@ function createKappaBadge(required) {
   return b;
 }
 
+function escapeHtml(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderMultilineDescription(text) {
+  const safe = escapeHtml(text);
+  const parts = safe.split(/(?:,|·|\/|;)\s+/g).map(s => s.trim()).filter(Boolean);
+  if (parts.length <= 1) return safe;
+  return parts.map(p => `• ${p}`).join("<br>");
+}
+
 function resolvePosition(quest) {
+  // 1) 코드에 고정된 좌표(전역 positions.js) 우선
+  if (quest && quest.id) {
+    const imm = getImmutablePosition(quest);
+    if (imm) return imm;
+  }
   if (quest && quest.position && typeof quest.position.x === "number" && typeof quest.position.y === "number") {
     return quest.position;
   }
@@ -76,17 +128,7 @@ function resolvePosition(quest) {
   return { x, y };
 }
 
-function renderLegend() {
-  mapDom.legendList.innerHTML = "";
-  for (const npc of npcs) {
-    const li = createEl("li", "legend-item");
-    const sw = createEl("span", "legend-swatch");
-    sw.style.background = npc.color;
-    const label = createEl("span", null, [document.createTextNode(npc.name)]);
-    li.append(sw, label);
-    mapDom.legendList.append(li);
-  }
-}
+// 범례 제거됨
 
 function addOrUpdateMarker(qid, npc, quest) {
   let marker = markerByQuestId.get(qid);
@@ -95,7 +137,7 @@ function addOrUpdateMarker(qid, npc, quest) {
     marker.setAttribute("data-quest-id", qid);
     const lbl = createEl("div", "marker-label");
     marker.append(lbl);
-    mapDom.map.append(marker);
+    (mapDom.canvas || mapDom.map).append(marker);
     markerByQuestId.set(qid, marker);
   }
   const order = typeof loadMappedArray === "function" ? loadMappedArray() : [];
@@ -151,13 +193,14 @@ function renderMappedList() {
     const { npc, quest } = res;
 
     const mapCode = detectQuestMap(quest);
-    if (!currentMapName || mapCode !== currentMapName) continue;
-
-    addOrUpdateMarker(questId, npc, quest);
+    // 현재 지도와 일치하는 퀘스트만 마커를 지도에 그림
+    if (currentMapName && mapCode === currentMapName) {
+      addOrUpdateMarker(questId, npc, quest);
+    }
 
     const state = getQuestState(questId);
     const card = createEl("div", "mapped-card");
-    const head = createEl("div", "mapped-head");
+    // 제목 행
     const left = createEl("div", "mapped-title");
     const order = typeof loadMappedArray === "function" ? loadMappedArray() : [];
     const idx = Math.max(0, order.indexOf(questId));
@@ -165,12 +208,15 @@ function renderMappedList() {
       ? npcColors[idx % npcColors.length]
       : npc.color;
     const dot = createEl("span", "npc-dot"); dot.style.background = orderColor;
-    const t = createEl("span", null, [document.createTextNode(`${npc.name} · ${quest.title}`)]);
-    const kBadge = createKappaBadge(!!quest.requiresKappa);
+    const t = createEl("span", "title-text", [document.createTextNode(`${npc.name} · ${quest.title}`)]);
+    const mapBadge = createEl("span", `map-badge${mapCode ? "" : " map-none"}`);
+    mapBadge.textContent = mapCode ? mapCodeToLabel(mapCode) : "X";
+    mapBadge.title = mapCode ? `이 퀘스트 맵: ${mapCodeToLabel(mapCode)}` : "특정 맵 없음/여러 맵";
     const orderBadge = createEl("span", "order-badge", [document.createTextNode(String(idx + 1))]);
-    left.append(dot, t, kBadge, orderBadge);
+    left.append(dot, t, mapBadge, orderBadge);
 
-    const actions = createEl("div", "quest-actions");
+    // 액션 행 (제목 아래)
+    const actions = createEl("div", "mapped-actions");
     const chkWrap = createEl("label", "chk-label");
     const chk = document.createElement("input");
     chk.type = "checkbox"; chk.checked = !!state.done;
@@ -187,15 +233,26 @@ function renderMappedList() {
       renderMappedList();
     });
 
+    // 해당 맵으로 이동 버튼
+    if (mapCode) {
+      const gotoBtn = createEl("button", "btn secondary");
+      gotoBtn.textContent = "해당 맵으로 이동";
+      gotoBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const tab = document.querySelector(`.map-tab[data-map="${mapCode}"]`);
+        if (tab) tab.click();
+      });
+      actions.append(gotoBtn);
+    }
+
     actions.append(chkWrap, removeBtn);
-    head.append(left, actions);
 
     const pos = resolvePosition(quest);
     const coord = createEl("div", "coord");
     coord.style.color = "#90a0b7"; coord.style.fontSize = "12px";
     coord.textContent = `좌표: ${pos.x}%, ${pos.y}%`;
 
-    card.append(head, coord);
+    card.append(left, actions, coord);
     card.addEventListener("click", () => openMappedQuestModal(npc, quest));
     card.addEventListener("mouseenter", () => addOrUpdateMarker(questId, npc, quest));
     mapDom.mappedList.append(card);
@@ -203,10 +260,7 @@ function renderMappedList() {
   }
 
   if (shown === 0) {
-    const msg = currentMapName
-      ? `현재 선택된 맵에 매핑된 퀘스트가 없습니다.`
-      : `오른쪽 상단 탭에서 맵을 먼저 선택하세요.`;
-    const empty = createEl("p", null, [document.createTextNode(msg)]);
+    const empty = createEl("p", null, [document.createTextNode("매핑된 퀘스트가 없습니다. 퀘스트 페이지에서 '맵에 표시'를 사용하세요.")]);
     empty.style.color = "#90a0b7";
     empty.style.fontSize = "13px";
     mapDom.mappedList.append(empty);
@@ -235,14 +289,13 @@ function openMappedQuestModal(npc, quest) {
   const left = createEl("div", "mapped-title");
   const dot = createEl("span", "npc-dot"); dot.style.background = npc.color;
   const title = createEl("span", "title-text", [document.createTextNode(`${npc.name} · ${quest.title}`)]);
-  const kBadge = createKappaBadge(!!quest.requiresKappa);
 
   const mapCode = detectQuestMap(quest);
   const mapBadge = createEl("span", `map-badge${mapCode ? "" : " map-none"}`);
   mapBadge.textContent = mapCode ? mapCodeToLabel(mapCode) : "X";
   mapBadge.title = mapCode ? `이 퀘스트가 진행되는 맵: ${mapCodeToLabel(mapCode)}` : "특정 맵 없음/여러 맵";
 
-  left.append(dot, title, kBadge, mapBadge);
+  left.append(dot, title, mapBadge);
 
   const actions = createEl("div", "quest-actions");
   const doneWrap = createEl("label", "chk-label");
@@ -253,9 +306,22 @@ function openMappedQuestModal(npc, quest) {
 
   head.append(left, actions);
 
-  const desc = createEl("p", null, [document.createTextNode(quest.description || "")]);
+  const desc = createEl("p");
+  desc.innerHTML = renderMultilineDescription(quest.description || "");
   const pos = resolvePosition(quest);
   const coord = createEl("div", "coord"); coord.style.color = "#90a0b7"; coord.style.fontSize = "12px"; coord.textContent = `좌표: ${pos.x}%, ${pos.y}%`;
+
+  // 보상 섹션 (있을 경우)
+  let rewardsSection = null;
+  if (Array.isArray(quest.rewards) && quest.rewards.length > 0) {
+    rewardsSection = createEl("div");
+    const h = createEl("h3"); h.textContent = "보상"; h.style.fontSize = "14px"; h.style.margin = "10px 0 6px";
+    const ul = createEl("ul"); ul.style.margin = "0"; ul.style.paddingLeft = "18px";
+    for (const r of quest.rewards) {
+      const li = createEl("li"); li.textContent = r; ul.append(li);
+    }
+    rewardsSection.append(h, ul);
+  }
 
   if (typeof questDetails !== "undefined" && questDetails[quest.id] && Array.isArray(questDetails[quest.id].steps)) {
     const stepsWrap = createEl("div");
@@ -265,9 +331,17 @@ function openMappedQuestModal(npc, quest) {
       const li = createEl("li"); li.textContent = s; ul.append(li);
     }
     stepsWrap.append(h, ul);
-    box.append(head, desc, coord, stepsWrap);
+    if (rewardsSection) {
+      box.append(head, desc, coord, rewardsSection, stepsWrap);
+    } else {
+      box.append(head, desc, coord, stepsWrap);
+    }
   } else {
-    box.append(head, desc, coord);
+    if (rewardsSection) {
+      box.append(head, desc, coord, rewardsSection);
+    } else {
+      box.append(head, desc, coord);
+    }
   }
 
   mapDom.modalBody.append(box);
@@ -277,15 +351,19 @@ function openMappedQuestModal(npc, quest) {
 
 function initMapPage() {
   mapDom.map = document.getElementById("map");
+  mapDom.canvas = document.getElementById("mapCanvas");
   mapDom.clearMarkersBtn = document.getElementById("clearMarkersBtn");
   mapDom.toggleGrid = document.getElementById("toggleGrid");
-  mapDom.legendList = document.getElementById("legendList");
   mapDom.mappedList = document.getElementById("mappedList");
   mapDom.modal = document.getElementById("mapQuestModal");
   mapDom.modalBody = document.getElementById("mapModalBody");
   mapDom.modalClose = document.getElementById("mapModalClose");
+  mapDom.floorTabs = document.getElementById("floorTabs");
+  mapDom.zoomInBtn = document.getElementById("zoomInBtn");
+  mapDom.zoomOutBtn = document.getElementById("zoomOutBtn");
+  mapDom.resetZoomBtn = document.getElementById("resetZoomBtn");
+  mapDom.coordStatus = document.getElementById("coordStatus");
 
-  renderLegend();
   setupEvents();
   renderMappedList();
 
@@ -304,6 +382,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const mapTabs = document.querySelectorAll('.map-tab');
   let currentMap = null;
+  let currentFloorCode = "the_lap_1f";
+  const floorTabs = mapDom.floorTabs;
+  const floorButtons = floorTabs ? floorTabs.querySelectorAll('.floor-tab') : [];
 
   // 맵 배경 적용기: jpg → png → webp 순 폴백, 복수형(s) → 단수형도 시도
   function applyMapBackgroundFor(mapName, labelText) {
@@ -311,6 +392,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const names = [mapName];
     if (mapName.endsWith("s")) {
       names.push(mapName.slice(0, -1));
+    }
+    // 특수 파일명 매핑 보정
+    if (mapName === "streets") {
+      names.push("street_of_tarkov");
+    }
+    if (mapName === "lab") {
+      // The Lab는 층별 파일로 처리하므로 여기선 일반 맵 시도 안 함
+      return;
     }
     for (const n of names) {
       candidates.push(`maps/${n}.jpg`);
@@ -322,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function tryNext() {
       if (idx >= candidates.length) {
         // 모든 시도가 실패하면 배경 제거
-        mapDom.map && mapDom.map.style.setProperty('--map-image', 'none');
+        if (mapDom.canvas) mapDom.canvas.style.setProperty('--map-image', 'none');
         currentMap = mapName;
         // 현재 맵 코드는 유지되므로 필터는 그대로 적용되게 하고,
         // 혹시 이전 마커가 남아있지 않도록 재렌더
@@ -333,17 +422,146 @@ document.addEventListener("DOMContentLoaded", () => {
       const src = candidates[idx++];
       const testImg = new Image();
       testImg.onload = () => {
-        if (mapDom.map) {
-          mapDom.map.style.setProperty('--map-image', `url("${src}")`);
+        if (mapDom.canvas) {
+          mapDom.canvas.style.setProperty('--map-image', `url("${src}")`);
         }
         currentMap = mapName;
         currentMapName = mapName;
         renderMappedList();
+        resetView();
       };
       testImg.onerror = tryNext;
       testImg.src = src;
     }
     tryNext();
+  }
+
+  // The Lab 층 배경 적용
+  function applyFloorBackground(floorCode) {
+    const candidates = [
+      `maps/${floorCode}.jpg`,
+      `maps/${floorCode}.png`,
+      `maps/${floorCode}.webp`
+    ];
+    let idx = 0;
+    function tryNext() {
+      if (idx >= candidates.length) {
+        if (mapDom.canvas) mapDom.canvas.style.setProperty('--map-image', 'none');
+        renderMappedList();
+        console.warn(`[맵 이미지] 파일을 찾을 수 없습니다: ${floorCode} (시도: ${candidates.join(", ")})`);
+        return;
+      }
+      const src = candidates[idx++];
+      const testImg = new Image();
+      testImg.onload = () => {
+        if (mapDom.canvas) {
+          mapDom.canvas.style.setProperty('--map-image', `url("${src}")`);
+        }
+        renderMappedList();
+        resetView();
+      };
+      testImg.onerror = tryNext;
+      testImg.src = src;
+    }
+    tryNext();
+  }
+
+  function applyTransform() {
+    if (!mapDom.canvas) return;
+    mapDom.canvas.style.transform = `translate(${zoomState.panX}px, ${zoomState.panY}px) scale(${zoomState.zoom})`;
+  }
+
+  function clampPan() {
+    const viewportW = mapDom.map.clientWidth;
+    const viewportH = mapDom.map.clientHeight;
+    const scaledW = viewportW * zoomState.zoom;
+    const scaledH = viewportH * zoomState.zoom;
+    const minX = Math.min(0, viewportW - scaledW);
+    const minY = Math.min(0, viewportH - scaledH);
+    if (zoomState.panX > 0) zoomState.panX = 0;
+    if (zoomState.panY > 0) zoomState.panY = 0;
+    if (zoomState.panX < minX) zoomState.panX = minX;
+    if (zoomState.panY < minY) zoomState.panY = minY;
+  }
+
+  function resetView() {
+    zoomState.zoom = 1;
+    zoomState.panX = 0;
+    zoomState.panY = 0;
+    applyTransform();
+  }
+
+  function zoomAt(pointX, pointY, factor) {
+    const oldZoom = zoomState.zoom;
+    const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, oldZoom * factor));
+    if (newZoom === oldZoom) return;
+    // 포인터 고정 줌
+    const cx = pointX - zoomState.panX;
+    const cy = pointY - zoomState.panY;
+    const scale = newZoom / oldZoom;
+    zoomState.panX = pointX - cx * scale;
+    zoomState.panY = pointY - cy * scale;
+    zoomState.zoom = newZoom;
+    clampPan();
+    applyTransform();
+  }
+
+  function attachInteractions() {
+    if (!mapDom.map) return;
+    // 휠 줌
+    mapDom.map.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = mapDom.map.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const factor = e.deltaY < 0 ? ZOOM_STEP : (1 / ZOOM_STEP);
+      zoomAt(x, y, factor);
+    }, { passive: false });
+
+    // 드래그 팬
+    let dragging = false;
+    let startX = 0, startY = 0;
+    let startPanX = 0, startPanY = 0;
+    mapDom.map.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startPanX = zoomState.panX;
+      startPanY = zoomState.panY;
+      mapDom.map.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      zoomState.panX = startPanX + dx;
+      zoomState.panY = startPanY + dy;
+      clampPan();
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      mapDom.map.style.cursor = '';
+    });
+
+    // 버튼 컨트롤
+    if (mapDom.zoomInBtn) {
+      mapDom.zoomInBtn.addEventListener('click', () => {
+        const rect = mapDom.map.getBoundingClientRect();
+        zoomAt(rect.width / 2, rect.height / 2, ZOOM_STEP);
+      });
+    }
+    if (mapDom.zoomOutBtn) {
+      mapDom.zoomOutBtn.addEventListener('click', () => {
+        const rect = mapDom.map.getBoundingClientRect();
+        zoomAt(rect.width / 2, rect.height / 2, 1 / ZOOM_STEP);
+      });
+    }
+    if (mapDom.resetZoomBtn) {
+      mapDom.resetZoomBtn.addEventListener('click', () => resetView());
+    }
   }
 
   // 맵 선택/전환
@@ -355,16 +573,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 탭 클릭 즉시 현재 맵 코드 갱신 및 마커/리스트 재렌더
       currentMapName = mapName;
-      if (mapDom.map) {
+      if (mapDom.canvas) {
         // 이전 배경은 즉시 제거해 시각적 잔상 방지
-        mapDom.map.style.setProperty('--map-image', 'none');
+        mapDom.canvas.style.setProperty('--map-image', 'none');
       }
       renderMappedList();
 
-      // 다양한 확장자/이름을 폴백으로 시도하여 #map 배경에 적용
-      applyMapBackgroundFor(mapName, tab.textContent);
+      // The Lab: 층 하위 탭 표시 및 층 배경 적용
+      if (floorTabs) {
+        if (mapName === "lab") {
+          floorTabs.style.display = "";
+          // 첫 진입 시 1F를 기본 선택
+          if (!currentFloorCode) currentFloorCode = "the_lap_1f";
+          floorButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-floor') === currentFloorCode));
+          applyFloorBackground(currentFloorCode);
+        } else {
+          floorTabs.style.display = "none";
+          // 일반 맵 배경 적용
+          applyMapBackgroundFor(mapName, tab.textContent);
+        }
+      } else {
+        // 일반 맵 배경 적용
+        applyMapBackgroundFor(mapName, tab.textContent);
+      }
     });
   });
+
+  // 층 전환 버튼 핸들러
+  if (floorButtons && floorButtons.length) {
+    floorButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        floorButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFloorCode = btn.getAttribute('data-floor');
+        // 현재 맵 코드는 'lab' 상태 유지, 배경만 변경
+        applyFloorBackground(currentFloorCode);
+      });
+    });
+  }
+
+  // 상호작용 부착
+  attachInteractions();
+  // 초기 뷰
+  resetView();
 });
 
+function getWorldPercentFromClient(clientX, clientY) {
+  const rect = mapDom.map.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const worldX = (x - zoomState.panX) / zoomState.zoom;
+  const worldY = (y - zoomState.panY) / zoomState.zoom;
+  const px = Math.max(0, Math.min(100, (worldX / rect.width) * 100));
+  const py = Math.max(0, Math.min(100, (worldY / rect.height) * 100));
+  return { x: Math.round(px * 100) / 100, y: Math.round(py * 100) / 100 };
+}
+
+// 좌표 내보내기/가져오기
+function exportPositions() {
+  const data = loadPositions();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "quest_positions.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// 좌표 힌트 (맵 초기화 이후 등록)
+document.addEventListener("DOMContentLoaded", () => {
+  const tryAttach = () => {
+    const mapEl = document.getElementById("map");
+    const statusEl = document.getElementById("coordStatus");
+    if (!mapEl || !statusEl) return;
+    mapEl.addEventListener("mousemove", (e) => {
+      const p = getWorldPercentFromClient(e.clientX, e.clientY);
+      statusEl.textContent = `X: ${p.x}% · Y: ${p.y}%`;
+      statusEl.style.display = "";
+    });
+    mapEl.addEventListener("mouseleave", () => { statusEl.style.display = "none"; });
+  };
+  tryAttach();
+});
+// 편집/내보내기/가져오기 기능 제거
 

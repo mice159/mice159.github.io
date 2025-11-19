@@ -189,6 +189,120 @@ Object.assign(questDetails, {
   therapist_urban_medicine: { steps: ["Streets 화학 실험실 찾기", "약물 보관함 찾기", "보관함 건네주기"] }
 });
 
+// BTR 운전병 상세 단계 (BTR 운전병.csv 기반)
+Object.assign(questDetails, {
+  btr_shipping_delay_part_2: {
+    preview: ["Woods 보급 기지 창고/사무실/차고 정찰"],
+    steps: [
+      "Woods 보급 기지 창고 정찰",
+      "Woods 보급 기지 사무실 정찰",
+      "Woods 보급 기지 차고 정찰",
+      "'A Helping Hand' 완료"
+    ]
+  },
+  btr_hot_wheels: {
+    preview: ["예비 BTR 바퀴 마킹"],
+    steps: ["예비 BTR 바퀴를 찾아 MS2000 마커로 표시"]
+  },
+  btr_hot_wheels_retry: {
+    preview: ["Reserve BTR 바퀴 마킹"],
+    steps: ["Reserve에서 예비 BTR 바퀴를 찾아 MS2000 마커로 표시"]
+  },
+  btr_swift_retribution: {
+    preview: ["Woods 스캐브 10 처치"],
+    steps: ["Woods에서 스캐브 10 처치"]
+  },
+  btr_inevitable_response: {
+    preview: ["Woods/Reserve 사살 + 수송 이동"],
+    steps: [
+      "Woods에서 스캐브 5 처치",
+      "Woods→Reserve 수송 수단 이용",
+      "Reserve에서 스캐브 5 처치"
+    ]
+  },
+  btr_building_foundations: {
+    preview: ["Ragman/Prapor/Peacekeeper에 판매"],
+    steps: [
+      "Ragman에게 아무 아이템 판매",
+      "Prapor에게 아무 아이템 판매",
+      "Peacekeeper에게 아무 아이템 판매"
+    ]
+  },
+  btr_natural_exchange: {
+    preview: ["Shoreline 밀수업자 기지 연료통 은닉"],
+    steps: [
+      "Shoreline 밀수업자 기지에 금속 연료통 1 은닉",
+      "Shoreline 밀수업자 기지에 금속 연료통 2 은닉"
+    ]
+  },
+  btr_ask_for_directions: {
+    preview: ["Lighthouse 절벽 길 1~4 마킹"],
+    steps: [
+      "절벽 길 1 구간 MS2000 마커로 표시",
+      "절벽 길 2 구간 MS2000 마커로 표시",
+      "절벽 길 3 구간 MS2000 마커로 표시",
+      "절벽 길 4 구간 MS2000 마커로 표시"
+    ]
+  },
+  btr_battery_change_1: {
+    preview: ["Tank battery 전달"],
+    steps: ["레이드에서 Tank battery 6-STEN-140-M 전달"]
+  },
+  btr_battery_change_2: {
+    preview: ["Tank battery 전달"],
+    steps: ["레이드에서 Tank battery 6-STEN-140-M 전달"]
+  },
+  btr_protect_the_sky: {
+    preview: ["Woods 패키지 수색/전달"],
+    steps: [
+      "Woods 지정 위치에서 패키지 수색",
+      "패키지 전달"
+    ]
+  },
+  btr_discombobulate: {
+    preview: ["Woods RPG 상자 3곳 은닉"],
+    steps: [
+      "Woods 첫 번째 RPG 탄약 상자에 VOG-25 Khattabka 은닉",
+      "Woods 두 번째 RPG 탄약 상자에 VOG-25 Khattabka 은닉",
+      "Woods 세 번째 RPG 탄약 상자에 VOG-25 Khattabka 은닉"
+    ]
+  },
+  btr_price_of_independence_1: {
+    preview: ["복합 목표: 편지/수송/신호탄/사살/탈출"],
+    steps: [
+      "Customs에서 편지 확보",
+      "Customs→Reserve 수송 수단 이용",
+      "Reserve 군 사령부 3층에 편지 은닉",
+      "Reserve→Woods 수송 수단 이용",
+      "Woods 임의 대상 3 제거",
+      "Woods→Lighthouse 수송 수단 이용",
+      "Lighthouse 기차역 창고에서 노란 신호탄 발사",
+      "Lighthouse 부두에서 노란 신호탄 발사",
+      "목표 수행 중 스캐브 10 제거",
+      "Lighthouse 생존 탈출"
+    ]
+  },
+  btr_price_of_independence_2: {
+    preview: ["복합 목표(조건 문구 차이)"],
+    steps: [
+      "Customs에서 편지 확보",
+      "Customs→Reserve 수송 수단 이용",
+      "Reserve 군 사령부 3층에 편지 은닉",
+      "Reserve→Woods 수송 수단 이용",
+      "Woods 임의 대상 3 제거",
+      "Woods→Lighthouse 수송 수단 이용",
+      "Lighthouse 기차역 창고에서 노란 신호탄 발사",
+      "Lighthouse 부두에서 노란 신호탄 발사",
+      "다른 목표 수행 중 스캐브 10 제거",
+      "Lighthouse 생존 탈출"
+    ]
+  },
+  btr_sensory_analysis_part_2: {
+    preview: ["Moonshine 전달"],
+    steps: ["Moonshine '맹렬한 도끼런' 전달"]
+  }
+});
+
 // Skier 상세 단계 (스키어.csv 기반)
 Object.assign(questDetails, {
   skier_supplier: { steps: ["FIR Module-3M 방탄복 건네주기", "FIR TOZ-106 산탄총 건네주기"] },
@@ -355,6 +469,240 @@ Object.assign(questDetails, {
   ragman_ballet_lover: { steps: ["Streets 발레마이스터 아파트 찾기", "생존 탈출"] },
   ragman_audiophile: { steps: ["Streets 음악가 모임 장소 찾기", "각인 기타 피크 획득", "제출"] },
   ragman_harley_forever: { steps: ["Lighthouse 오토바이 2", "Streets 오토바이 1에 마커 설치", "생존 탈출"] }
+});
+
+// Lightkeeper 상세 단계 (등대지기.csv 기반)
+Object.assign(questDetails, {
+  lightkeeper_information_source: {
+    preview: ["여러 맵 V-Ex/택시 탈출", "Streets Patrol-A 마킹"],
+    steps: [
+      "Woods Bridge V-Ex 탈출",
+      "Customs Dorms V-Ex 탈출",
+      "Interchange Power Station V-Ex 탈출",
+      "Streets Primorsky Ave Taxi V-Ex 탈출",
+      "Ground Zero Police Cordon V-Ex 탈출",
+      "Streets Patrol-A 장갑차 1 위치 마킹",
+      "Streets Patrol-A 장갑차 2 위치 마킹"
+    ]
+  },
+  lightkeeper_missing_informant: {
+    preview: ["Streets 은신처·일기", "등대지기에게 전달"],
+    steps: [
+      "Streets 정보 제공자의 백업 은신처 찾기",
+      "정보 제공자의 일기 확보",
+      "등대지기에게 전달"
+    ]
+  },
+  lightkeeper_snatch: {
+    preview: ["위조/원본 정보 교체", "Lighthouse/Reserve 수행"],
+    steps: [
+      "Lighthouse에서 탈출",
+      "Lighthouse Rogue 기지에서 위조된 정보 획득",
+      "Reserve 수리소에서 원본 정보 획득",
+      "Reserve BMP-2 아래에 위조된 정보 숨기기",
+      "원본 정보 등대지기에게 전달"
+    ]
+  },
+  lightkeeper_return_the_favor: {
+    preview: ["Woods PMC 15 처치", "블루 폴더 2곳 은닉"],
+    steps: [
+      "Woods 산악 지역 주변 PMC 15명 처치",
+      "Woods USEC 캠프 검은 SUV에 TerraGroup 블루 폴더 숨기기",
+      "Woods USEC 캠프 위성 안테나 근처 나무 상자에 블루 폴더 숨기기"
+    ]
+  },
+  lightkeeper_payback: {
+    preview: ["Glukhar 및 경호원 처치", "Cliff Descent 탈출"],
+    steps: [
+      "Glukhar 1명 처치",
+      "Glukhar 경호원 6명 처치",
+      "레이더 기지에서 노란 신호탄 발사",
+      "Reserve Cliff Descent로 탈출"
+    ]
+  },
+  lightkeeper_provocation: {
+    preview: ["Interchange ASh-12 처치 20", "지정 물품 은닉·생존"],
+    steps: [
+      "Interchange Kiba Arms 주변에서 ASh-12로 대상 20명 처치",
+      "Kiba Arms 상점 안에 Salty Dog 소시지 숨기기",
+      "비밀 은신처에 Moonshine(맹렬한 도끼런) 숨기기",
+      "비밀 컨테이너 은신처에 화장지 숨기기",
+      "생존 탈출"
+    ]
+  },
+  lightkeeper_following_the_bread_crumbs: {
+    preview: ["Labs 구역 조사·테이프", "Raider 20 처치"],
+    steps: [
+      "Raider 20명 처치",
+      "The Lab 무기 테스트 지역 조사",
+      "The Lab 인간 실험실 조사",
+      "The Lab 매니저 사무실에서 보안 테이프 획득",
+      "테이프를 등대지기에게 전달"
+    ]
+  },
+  lightkeeper_spotter: {
+    preview: ["Concordia/프리모르스키 저격 위치", "장비 은닉·생존"],
+    steps: [
+      "Streets Concordia 건설 현장 조망 저격 위치 확인",
+      "빨간 테이블 근처에 AI .338 소음기 숨기기",
+      "프리모르스키에서 영화관 조망 저격 위치 확인",
+      "Makhors 침대 아래에 Trijicon REAP-IR 숨기기",
+      "생존 탈출"
+    ]
+  },
+  lightkeeper_make_an_impression: {
+    preview: ["볼트액션 숙련", "350m+ 스나스캐 10"],
+    steps: [
+      "볼트액션 라이플 기술 레벨 요구 달성",
+      "350m 이상 거리에서 스나이퍼 스캐브 10명 처치"
+    ]
+  },
+  lightkeeper_trouble_in_the_big_city: {
+    preview: ["Streets 지역 확보 50", "마킹·신호탄·생존"],
+    steps: [
+      "Streets 화물 운송 지역 찾기",
+      "적대 PMC로부터 지역 확보(50명)",
+      "MS2000 마커로 화물 지역 표시",
+      "장갑차 근처에서 노란 신호탄 발사",
+      "생존 탈출"
+    ]
+  },
+  lightkeeper_simple_side_job: {
+    preview: ["Reserve 옥상 화물", "Woods 은닉"],
+    steps: [
+      "Reserve 군 병원 옥상에서 등대지기 화물 상자 획득",
+      "Woods 스캐브 집에 화물 숨기기"
+    ]
+  },
+  lightkeeper_order_from_outside: {
+    preview: ["Reserve 재머", "Woods 은닉"],
+    steps: [
+      "Reserve 전기기계 창고에서 electronic jammer 확보",
+      "Woods 지정 위치에 장치 은닉"
+    ]
+  },
+  lightkeeper_keepers_word: {
+    preview: ["미궁 3곳 나이프 은닉"],
+    steps: [
+      "Labyrinth(미궁) 첫 번째 특별 장소에 컬티스트 나이프 은닉",
+      "두 번째 특별 장소에 컬티스트 나이프 은닉",
+      "세 번째 특별 장소에 컬티스트 나이프 은닉"
+    ]
+  },
+  lightkeeper_surprise_gift_pvp: {
+    preview: ["Customs 은신처", "레프 정보 전달"],
+    steps: [
+      "Customs 옛 챔피언 은신처로 돌아가기",
+      "레프의 불리한 정보 획득",
+      "획득한 정보 건네주기"
+    ]
+  }
+});
+
+// Ref 상세 단계 (레프.csv 기반)
+Object.assign(questDetails, {
+  ref_easy_money_part_2: {
+    preview: ["FIR 음료/식품 전달"],
+    steps: [
+      "레이드에서 발견한 음료 카테고리 아이템 건네주기",
+      "레이드에서 발견한 식품 카테고리 아이템 건네주기"
+    ]
+  },
+  ref_provide_viewership: {
+    preview: ["Customs 공장 WI-FI 4", "내부 처치 15"],
+    steps: [
+      "Customs 산업 공장 내부에 WI-FI 카메라 4곳 설치",
+      "Customs 산업 공장 내부에서 아무 대상 15 제거"
+    ]
+  },
+  ref_balancing_part_1: {
+    preview: ["AUG로 스캐브 5"],
+    steps: [
+      "어느 장소에서든 Steyr AUG를 사용해 스캐브 5 처치"
+    ]
+  },
+  ref_balancing_part_2: {
+    preview: ["PACA 착용 PMC 2"],
+    steps: [
+      "PACA 소프트 아머를 착용하고 PMC 2 처치"
+    ]
+  },
+  ref_surprise: {
+    preview: ["FIR Class4+ 플레이트 전달"],
+    steps: [
+      "레이드에서 발견한 Class 4 이상 방탄 플레이트 전달"
+    ]
+  },
+  ref_create_a_distraction_part_1: {
+    preview: ["Ground Zero 카페 TP-200 설치"],
+    steps: [
+      "Ground Zero 카페 2층에 TP-200 TNT 설치"
+    ]
+  },
+  ref_create_a_distraction_part_2: {
+    preview: ["Streets 경호원 2 처치"],
+    steps: [
+      "Streets에서 카반 또는 콜론타이의 경호원 2 처치"
+    ]
+  },
+  ref_to_great_heights_part_1: {
+    preview: ["Arena CheckPoint/LastHero 승리"],
+    steps: [
+      "Arena CheckPoint 또는 LastHero 모드 경기 승리"
+    ]
+  },
+  ref_to_great_heights_part_2: {
+    preview: ["Arena TeamFight/BlastGang/CheckPoint 승리"],
+    steps: [
+      "Arena TeamFight/BlastGang/CheckPoint 모드 중 한 모드에서 경기 승리"
+    ]
+  },
+  ref_to_great_heights_part_3: {
+    preview: ["Arena 3위 이상으로 승리"],
+    steps: [
+      "Arena TeamFight/BlastGang/CheckPoint 모드에서 3위 이상 기록하며 승리"
+    ]
+  },
+  ref_to_great_heights_part_4: {
+    preview: ["루블 기부, 6전 3승(4패 실패)"],
+    steps: [
+      "EFT 잔액에서 루블을 건네기",
+      "Arena TeamFight/BlastGang/CheckPoint 6매치 중 3매치 승리(4패 시 실패)"
+    ]
+  },
+  ref_to_great_heights_part_5: {
+    preview: ["Arena 2연승 달성"],
+    steps: [
+      "Arena TeamFight/BlastGang/CheckPoint에서 2연속 매치 승리"
+    ]
+  },
+  ref_against_the_conscience_part_1: {
+    preview: ["Customs 방 조사·생존", "Shoreline 열쇠"],
+    steps: [
+      "Customs 옛 챔피언 방을 찾아 사건 파악",
+      "Shoreline 밀수업자 기지에서 열쇠 확보",
+      "해당 위치에서 생존 탈출"
+    ]
+  },
+  ref_against_the_conscience_part_2: {
+    preview: ["Arena 적 100 처치"],
+    steps: [
+      "Arena 모든 게임 모드에서 적 100 제거"
+    ]
+  },
+  ref_decisions_decisions: {
+    preview: ["레프 불리한 정보 획득·전달"],
+    steps: [
+      "레프의 불리한 정보를 찾아 획득",
+      "정보를 레프에게 건네기"
+    ]
+  },
+  ref_postponed_reward: {
+    preview: ["Lega 메달 전달"],
+    steps: [
+      "Lega 메달을 레프에게 전달"
+    ]
+  }
 });
 
 // Jaeger 상세 단계 (예거.csv 기반)

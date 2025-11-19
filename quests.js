@@ -24,18 +24,86 @@ function createKappaBadge(required) {
   return b;
 }
 
+function escapeHtml(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderMultilineDescription(text) {
+  const safe = escapeHtml(text);
+  const parts = safe.split(/(?:,|·|\/|;)\s+/g).map(s => s.trim()).filter(Boolean);
+  if (parts.length <= 1) return safe;
+  return parts.map(p => `• ${p}`).join("<br>");
+}
+
+function splitDescriptionParts(text) {
+  const safe = escapeHtml(text);
+  return safe.split(/(?:,|·|\/|;)\s+/g).map(s => s.trim()).filter(Boolean);
+}
+
+function renderDescriptionPreview(text, maxItems) {
+  const parts = splitDescriptionParts(text);
+  if (parts.length <= maxItems) {
+    return parts.map(p => `• ${p}`).join("<br>");
+  }
+  const shown = parts.slice(0, maxItems).map(p => `• ${p}`).join("<br>");
+  const rest = parts.length - maxItems;
+  return `${shown}<br>… 외 ${rest}개`;
+}
+
+function renderPreviewFromDetails(quest) {
+  if (typeof questDetails !== "undefined" && questDetails[quest.id]) {
+    const d = questDetails[quest.id];
+    if (Array.isArray(d.preview) && d.preview.length > 0) {
+      return d.preview.map(p => `• ${escapeHtml(p)}`).join("<br>");
+    }
+    if (typeof d.preview === "string" && d.preview.trim()) {
+      return `• ${escapeHtml(d.preview.trim())}`;
+    }
+  }
+  return null;
+}
+// positions.js에 정의된 고정 좌표를 우선 사용
+function getImmutablePositionForQuest(quest) {
+  try {
+    if (!quest || !quest.id) return null;
+    const imm = (window && window.IMMUTABLE_POSITIONS) || {};
+    const entry = imm[quest.id];
+    if (!entry) return null;
+    if (!Array.isArray(entry)) {
+      if (entry && typeof entry.x === "number" && typeof entry.y === "number") return entry;
+      return null;
+    }
+    const mapCode = detectQuestMap(quest); // 퀘스트 텍스트 기반 맵 감지
+    if (mapCode) {
+      const hit = entry.find(it => (it && typeof it.x === "number" && typeof it.y === "number" && String(it.map || "").toLowerCase() === String(mapCode).toLowerCase()));
+      if (hit) return { x: hit.x, y: hit.y };
+    }
+    const emptyMap = entry.find(it => it && (it.map === "" || it.map == null) && typeof it.x === "number" && typeof it.y === "number");
+    if (emptyMap) return { x: emptyMap.x, y: emptyMap.y };
+    const first = entry.find(it => it && typeof it.x === "number" && typeof it.y === "number");
+    if (first) return { x: first.x, y: first.y };
+  } catch {}
+  return null;
+}
 function resolvePosition(quest) {
+  const imm = getImmutablePositionForQuest(quest);
+  if (imm) return imm;
   if (quest && quest.position && typeof quest.position.x === "number" && typeof quest.position.y === "number") {
     return quest.position;
   }
-  // fallback: deterministic pseudo-grid by id
+  // fallback: 결정적 가짜 좌표
   const id = quest && quest.id ? quest.id : Math.random().toString(36).slice(2);
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  const col = hash % 7; // 0..6
-  const row = Math.floor((hash >> 3) % 6); // 0..5
-  const x = 10 + col * 12; // 10..82
-  const y = 20 + row * 10; // 20..70
+  const col = hash % 7;
+  const row = Math.floor((hash >> 3) % 6);
+  const x = 10 + col * 12;
+  const y = 20 + row * 10;
   return { x, y };
 }
 
@@ -43,6 +111,46 @@ function getNpcInitials(name) {
   const words = name.split(/\s+/);
   const initials = words.slice(0, 2).map(w => w[0]).join("");
   return initials.toUpperCase();
+}
+
+// 프로필 이미지 로더: Profil/ 디렉토리에서 id/이름 기반 파일을 확장자 우선순위대로 시도
+function loadNpcProfileImage(imgEl, npc, fallbackEl) {
+  // 특정 id에 대한 파일명 별칭(예: btr → btr_driver)
+  const aliasBaseNamesById = {
+    btr: ["btr_driver"]
+  };
+  const baseNames = Array.from(new Set([
+    npc.id || "",
+    ...(aliasBaseNamesById[npc.id] || []),
+    npc.name || "",
+    String(npc.name || "").replace(/\s+/g, "_"),
+    String(npc.name || "").replace(/\s+/g, "")
+  ])).filter(Boolean);
+  const exts = ["png", "jpg", "jpeg", "webp"];
+  const candidates = [];
+  for (const b of baseNames) {
+    for (const ext of exts) {
+      candidates.push(`Profil/${b}.${ext}`);
+    }
+  }
+  let idx = 0;
+  function tryNext() {
+    if (idx >= candidates.length) {
+      // 모두 실패: 이니셜 유지
+      if (imgEl && imgEl.parentElement) {
+        imgEl.remove();
+      }
+      return;
+    }
+    const src = candidates[idx++];
+    imgEl.onload = () => {
+      if (fallbackEl) fallbackEl.style.display = "none";
+      imgEl.style.display = "block";
+    };
+    imgEl.onerror = tryNext;
+    imgEl.src = src;
+  }
+  tryNext();
 }
 
 function renderNpcGrid() {
@@ -56,9 +164,17 @@ function renderNpcGrid() {
     if (npc.id === selectedNpcId) tile.classList.add("active");
     const avatar = el("div", "avatar");
     avatar.style.background = npc.color;
-    avatar.append(document.createTextNode(getNpcInitials(npc.name)));
+    // 이니셜 표시 (이미지 로드시 숨김)
+    const initialsEl = el("span", "avatar-initials", [document.createTextNode(getNpcInitials(npc.name))]);
+    avatar.append(initialsEl);
+    // 프로필 이미지 시도
+    const img = document.createElement("img");
+    img.style.display = "none";
+    loadNpcProfileImage(img, npc, initialsEl);
+    avatar.append(img);
     const label = el("div", "label", [document.createTextNode(npc.name)]);
     tile.append(avatar, label);
+    // 타일 클릭: 상인 선택
     tile.addEventListener("click", () => {
       selectedNpcId = npc.id;
       renderNpcGrid();
@@ -82,7 +198,18 @@ function renderNpcQuestList() {
   const npc = npcs.find(n => n.id === selectedNpcId) || npcs[0];
   if (!npc) return;
   selectedNpcId = npc.id;
-  qDom.selectedNpcName.textContent = npc.name;
+  // 헤더에 즉시 프로필 표시 (아바타 + 이름)
+  qDom.selectedNpcName.innerHTML = "";
+  const headerAvatar = el("div", "avatar");
+  headerAvatar.style.background = npc.color;
+  const headerInitials = el("span", "avatar-initials", [document.createTextNode(getNpcInitials(npc.name))]);
+  headerAvatar.append(headerInitials);
+  const headerImg = document.createElement("img");
+  headerImg.style.display = "none";
+  loadNpcProfileImage(headerImg, npc, headerInitials);
+  headerAvatar.append(headerImg);
+  const headerName = el("span", "", [document.createTextNode(npc.name)]);
+  qDom.selectedNpcName.append(headerAvatar, headerName);
 
   const questList = el("div", "quest-list");
   for (const quest of npc.quests) {
@@ -115,7 +242,14 @@ function renderNpcQuestList() {
     // 카파 여부와 맵 표시 버튼 사이에 맵 배지 배치
     head.append(qTitle, kBadge, mapBadge, actions);
     const summaryText = normalizeMapNamesInText(quest.description);
-    const summary = el("div", null, [document.createTextNode(summaryText)]);
+    const summary = el("div");
+    const detailsPreview = renderPreviewFromDetails(quest);
+    if (detailsPreview) {
+      summary.innerHTML = detailsPreview;
+    } else {
+      const compact = npc.id === "ref" || npc.id === "lightkeeper";
+      summary.innerHTML = compact ? renderDescriptionPreview(summaryText, 2) : renderMultilineDescription(summaryText);
+    }
     summary.style.color = "#90a0b7"; summary.style.fontSize = "12px";
     qCard.append(head, summary);
     qDom.npcQuestList.append(qCard);
@@ -161,9 +295,22 @@ function openQuestModal(npc, quest) {
   head.append(left, actions);
 
   const descText = normalizeMapNamesInText(quest.description);
-  const desc = el("p", null, [document.createTextNode(descText)]);
+  const desc = el("p");
+  desc.innerHTML = renderMultilineDescription(descText);
   const pos = resolvePosition(quest);
   const coord = el("div", "coord"); coord.style.color = "#90a0b7"; coord.style.fontSize = "12px"; coord.textContent = `좌표: ${pos.x}%, ${pos.y}%`;
+
+  // 보상 섹션 (있을 경우에만)
+  let rewardsSection = null;
+  if (Array.isArray(quest.rewards) && quest.rewards.length > 0) {
+    rewardsSection = el("div");
+    const h = el("h3"); h.textContent = "보상"; h.style.fontSize = "14px"; h.style.margin = "10px 0 6px";
+    const ul = el("ul"); ul.style.margin = "0"; ul.style.paddingLeft = "18px";
+    for (const r of quest.rewards) {
+      const li = el("li"); li.textContent = r; ul.append(li);
+    }
+    rewardsSection.append(h, ul);
+  }
 
   // 상세 단계 렌더 (있을 경우)
   if (typeof questDetails !== "undefined" && questDetails[quest.id] && Array.isArray(questDetails[quest.id].steps)) {
@@ -175,9 +322,17 @@ function openQuestModal(npc, quest) {
       const li = el("li"); li.textContent = normalizeMapNamesInText(s); ul.append(li);
     }
     stepsWrap.append(h, ul);
-    box.append(head, desc, coord, stepsWrap);
+    if (rewardsSection) {
+      box.append(head, desc, coord, rewardsSection, stepsWrap);
+    } else {
+      box.append(head, desc, coord, stepsWrap);
+    }
   } else {
-    box.append(head, desc, coord);
+    if (rewardsSection) {
+      box.append(head, desc, coord, rewardsSection);
+    } else {
+      box.append(head, desc, coord);
+    }
   }
   qDom.modalBody.append(box);
   qDom.modal.classList.remove("hidden");
@@ -188,14 +343,15 @@ function openQuestModal(npc, quest) {
 function detectQuestMap(quest) {
   const text = `${quest.title || ""} ${quest.description || ""}`.toLowerCase();
   const patterns = [
-    { code: "customs", re: /\bcustoms?\b/ },
-    { code: "woods", re: /\bwoods?\b/ },
-    { code: "factory", re: /\bfactory\b/ },
-    { code: "reserve", re: /\breserve\b/ },
-    { code: "lighthouse", re: /\blighthouse\b/ },
-    { code: "shoreline", re: /\bshoreline\b/ },
-    { code: "interchange", re: /\binterchange\b/ },
-    { code: "streets", re: /\bstreets\b|\bstreets of tarkov\b/ },
+    { code: "customs", re: /\bcustoms?\b|세관/ },
+    { code: "woods", re: /\bwoods?\b|삼림/ },
+    { code: "factory", re: /\bfactory\b|팩토리/ },
+    { code: "reserve", re: /\breserve\b|리저브/ },
+    { code: "lighthouse", re: /\blighthouse\b|등대/ },
+    { code: "shoreline", re: /\bshoreline\b|해안선/ },
+    { code: "interchange", re: /\binterchange\b|인터체인지/ },
+    { code: "streets", re: /\bstreets\b|\bstreets of tarkov\b|타르코프\s*시내/ },
+    { code: "ground_zero", re: /\bground\s*zero\b|그라운드\s*제로/ },
     { code: "lab", re: /\bthe lab\b|\blabs?\b/ }
   ];
   for (const p of patterns) {
@@ -214,6 +370,7 @@ function mapCodeToLabel(code) {
     shoreline: "Shoreline",
     interchange: "Interchange",
     streets: "Streets of Tarkov",
+    ground_zero: "Ground Zero",
     lab: "The Lab"
   };
   return labels[code] || code;
