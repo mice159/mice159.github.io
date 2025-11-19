@@ -139,6 +139,7 @@ function loadNpcProfileImage(imgEl, npc, fallbackEl) {
       // 모두 실패: 이니셜 유지
       if (imgEl && imgEl.parentElement) {
         imgEl.remove();
+        imgEl.parentElement.classList.remove("skeleton");
       }
       return;
     }
@@ -146,6 +147,9 @@ function loadNpcProfileImage(imgEl, npc, fallbackEl) {
     imgEl.onload = () => {
       if (fallbackEl) fallbackEl.style.display = "none";
       imgEl.style.display = "block";
+      if (imgEl.parentElement) {
+        imgEl.parentElement.classList.remove("skeleton");
+      }
     };
     imgEl.onerror = tryNext;
     imgEl.src = src;
@@ -164,13 +168,11 @@ function renderNpcGrid() {
     if (npc.id === selectedNpcId) tile.classList.add("active");
     const avatar = el("div", "avatar");
     avatar.style.background = npc.color;
-    // 이니셜 표시 (이미지 로드시 숨김)
-    const initialsEl = el("span", "avatar-initials", [document.createTextNode(getNpcInitials(npc.name))]);
-    avatar.append(initialsEl);
+    avatar.classList.add("skeleton");
     // 프로필 이미지 시도
     const img = document.createElement("img");
     img.style.display = "none";
-    loadNpcProfileImage(img, npc, initialsEl);
+    loadNpcProfileImage(img, npc, null);
     avatar.append(img);
     const label = el("div", "label", [document.createTextNode(npc.name)]);
     tile.append(avatar, label);
@@ -202,11 +204,10 @@ function renderNpcQuestList() {
   qDom.selectedNpcName.innerHTML = "";
   const headerAvatar = el("div", "avatar");
   headerAvatar.style.background = npc.color;
-  const headerInitials = el("span", "avatar-initials", [document.createTextNode(getNpcInitials(npc.name))]);
-  headerAvatar.append(headerInitials);
+  headerAvatar.classList.add("skeleton");
   const headerImg = document.createElement("img");
   headerImg.style.display = "none";
-  loadNpcProfileImage(headerImg, npc, headerInitials);
+  loadNpcProfileImage(headerImg, npc, null);
   headerAvatar.append(headerImg);
   const headerName = el("span", "", [document.createTextNode(npc.name)]);
   qDom.selectedNpcName.append(headerAvatar, headerName);
