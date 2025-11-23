@@ -10,12 +10,36 @@ const mapDom = {
   modalClose: null
 };
 
+// 하나의 퀘스트가 여러 좌표를 가질 수 있으므로
+// questId -> 해당 퀘스트 마커 DOM 배열을 저장
 const markerByQuestId = new Map();
 let currentMapName = null; // 현재 선택된 맵 코드 (customs, woods, ...)
 let zoomState = { zoom: 1, panX: 0, panY: 0 };
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 5;
 const ZOOM_STEP = 1.2;
+
+// 좌표 고정값 쓰기 유틸 (positions.js의 IMMUTABLE_POSITIONS에 반영)
+// 한 번 Alt+클릭할 때마다 기존 값은 유지하고 "새 좌표"를 추가합니다.
+function setImmutablePosition(questId, mapCode, x, y) {
+  try {
+    if (!questId || typeof window === "undefined") return;
+    const store = window.IMMUTABLE_POSITIONS || (window.IMMUTABLE_POSITIONS = {});
+    let entry = store[questId];
+    if (!entry) {
+      entry = [];
+    }
+    if (!Array.isArray(entry)) {
+      entry = [entry];
+    }
+    const targetMapCode = (mapCode || "").toLowerCase();
+    entry.push({ map: targetMapCode || "", x, y });
+    store[questId] = entry;
+  } catch {
+    // 좌표 편집 도중 오류가 나더라도 앱 전체 동작에는 영향 없도록 무시
+  }
+}
+
 function getImmutablePosition(quest) {
   try {
     const imm = (window && window.IMMUTABLE_POSITIONS) || {};
@@ -41,6 +65,84 @@ function getImmutablePosition(quest) {
     if (first) return { x: first.x, y: first.y };
   } catch {}
   return null;
+}
+
+// IMMUTABLE_POSITIONS에서 퀘스트의 첫 번째 유효한 좌표의 맵 코드를 반환
+// 좌표가 없으면 null 반환
+function getQuestMapFromPositions(quest) {
+  try {
+    const imm = (window && window.IMMUTABLE_POSITIONS) || {};
+    const entry = imm[quest.id];
+    if (!entry) return null;
+    
+    const entries = Array.isArray(entry) ? entry : [entry];
+    const isValid = (it) => it && typeof it.x === "number" && typeof it.y === "number" && (it.x !== 0 || it.y !== 0);
+    
+    // 첫 번째 유효한 좌표의 맵 코드 반환
+    for (const pos of entries) {
+      if (isValid(pos)) {
+        const mapCode = (pos.map || "").toLowerCase();
+        if (mapCode) return mapCode;
+      }
+    }
+  } catch {}
+  return null;
+}
+
+// 현재 맵 기준으로 퀘스트에 연결된 모든 좌표 목록을 반환
+// - positions.js의 IMMUTABLE_POSITIONS에 여러 개가 있으면 전부 사용
+// - 현재 맵 코드와 일치하는 것 우선, 없으면 map이 비어 있는 항목, 그래도 없으면 전부
+// - IMMUTABLE_POSITIONS가 비어 있으면 quest.position 또는 해시 좌표 1개만 반환
+function getAllPositionsForQuest(quest) {
+  const positions = [];
+  try {
+    const imm = (window && window.IMMUTABLE_POSITIONS) || {};
+    let entry = imm[quest.id];
+    if (entry) {
+      if (!Array.isArray(entry)) entry = [entry];
+      const mapCode = currentMapName || detectQuestMap(quest);
+      const isValid = (it) => it && typeof it.x === "number" && typeof it.y === "number";
+
+      if (mapCode) {
+        const exact = entry.filter(
+          it =>
+            isValid(it) &&
+            String(it.map || "").toLowerCase() === String(mapCode).toLowerCase()
+        );
+        if (exact.length) return exact.map(it => ({ x: it.x, y: it.y }));
+
+        const emptyMap = entry.filter(
+          it => isValid(it) && (it.map === "" || it.map == null)
+        );
+        if (emptyMap.length) return emptyMap.map(it => ({ x: it.x, y: it.y }));
+
+        // 현재 맵 코드가 있는데, 일치하는 map 값이 전혀 없다면
+        // 다른 맵 좌표를 강제로 그리지 않도록 빈 배열 반환
+        return [];
+      }
+
+      const all = entry.filter(isValid);
+      if (all.length) return all.map(it => ({ x: it.x, y: it.y }));
+    }
+  } catch {}
+
+  // IMMUTABLE_POSITIONS에 없으면 기존 단일 좌표/해시 좌표로 대체
+  if (
+    quest &&
+    quest.position &&
+    typeof quest.position.x === "number" &&
+    typeof quest.position.y === "number"
+  ) {
+    return [quest.position];
+  }
+  const id = quest && quest.id ? quest.id : Math.random().toString(36).slice(2);
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  const col = hash % 7;
+  const row = Math.floor((hash >> 3) % 6);
+  const x = 10 + col * 12;
+  const y = 20 + row * 10;
+  return [{ x, y }];
 }
 
 // 퀘스트 텍스트에서 맵 코드 추출 (quests.js와 동일 규칙)
@@ -75,7 +177,9 @@ function mapCodeToLabel(code) {
     interchange: "Interchange",
     streets: "Streets of Tarkov",
     ground_zero: "Ground Zero",
-    lab: "The Lab"
+    lab: "The Lab",
+    labrynth: "Labrynth",
+    reserve_b1: "Reserve B1"
   };
   return labels[code] || code;
 }
@@ -131,33 +235,46 @@ function resolvePosition(quest) {
 // 범례 제거됨
 
 function addOrUpdateMarker(qid, npc, quest) {
-  let marker = markerByQuestId.get(qid);
-  if (!marker) {
-    marker = createEl("div", "marker pulse");
-    marker.setAttribute("data-quest-id", qid);
-    const lbl = createEl("div", "marker-label");
-    marker.append(lbl);
-    (mapDom.canvas || mapDom.map).append(marker);
-    markerByQuestId.set(qid, marker);
+  // 기존 마커들 제거
+  const existing = markerByQuestId.get(qid);
+  if (Array.isArray(existing)) {
+    existing.forEach(m => m.remove());
   }
+
   const order = typeof loadMappedArray === "function" ? loadMappedArray() : [];
   const idx = Math.max(0, order.indexOf(qid));
   const orderColor = (typeof npcColors !== "undefined" && Array.isArray(npcColors) && npcColors.length > 0)
     ? npcColors[idx % npcColors.length]
     : (npc && npc.color) || "#6ea8fe";
-  marker.style.color = orderColor;
-  const pos = resolvePosition(quest);
-  marker.style.left = `${pos.x}%`;
-  marker.style.top = `${pos.y}%`;
-  marker.style.background = orderColor;
-  const lbl = marker.querySelector(".marker-label");
-  if (lbl) lbl.textContent = String(idx + 1);
-  marker.classList.remove("pulse"); void marker.offsetWidth; marker.classList.add("pulse");
+
+  const positions = getAllPositionsForQuest(quest);
+  const created = [];
+  const parent = (mapDom.canvas || mapDom.map);
+
+  positions.forEach((pos, i) => {
+    const marker = createEl("div", "marker pulse");
+    marker.setAttribute("data-quest-id", qid);
+    marker.style.color = orderColor;
+    marker.style.left = `${pos.x}%`;
+    marker.style.top = `${pos.y}%`;
+    marker.style.background = orderColor;
+    const lbl = createEl("div", "marker-label");
+    // 동일 퀘스트 내에서 여러 좌표일 경우 1-1, 1-2 형식으로 표기
+    lbl.textContent = positions.length > 1 ? `${idx + 1}-${i + 1}` : String(idx + 1);
+    marker.append(lbl);
+    parent.append(marker);
+    marker.classList.remove("pulse"); void marker.offsetWidth; marker.classList.add("pulse");
+    created.push(marker);
+  });
+
+  markerByQuestId.set(qid, created);
 }
 
 function removeMarker(qid) {
-  const m = markerByQuestId.get(qid);
-  if (m) m.remove();
+  const arr = markerByQuestId.get(qid);
+  if (Array.isArray(arr)) {
+    arr.forEach(m => m.remove());
+  }
   markerByQuestId.delete(qid);
 }
 
@@ -165,7 +282,13 @@ function clearAll() {
   // 매핑 상태 비우고 마커 삭제
   const set = loadMappedSet();
   for (const id of Array.from(set)) removeFromMapped(id);
-  for (const m of markerByQuestId.values()) m.remove();
+  for (const value of markerByQuestId.values()) {
+    if (Array.isArray(value)) {
+      value.forEach(m => m && typeof m.remove === "function" && m.remove());
+    } else if (value && typeof value.remove === "function") {
+      value.remove();
+    }
+  }
   markerByQuestId.clear();
   renderMappedList();
 }
@@ -175,7 +298,13 @@ function renderMappedList() {
   const set = loadMappedSet();
 
   // 기존 마커 모두 제거 후 현재 맵에 해당하는 것만 다시 그리기
-  for (const m of markerByQuestId.values()) m.remove();
+  for (const value of markerByQuestId.values()) {
+    if (Array.isArray(value)) {
+      value.forEach(m => m && typeof m.remove === "function" && m.remove());
+    } else if (value && typeof value.remove === "function") {
+      value.remove();
+    }
+  }
   markerByQuestId.clear();
 
   if (set.size === 0) {
@@ -193,8 +322,11 @@ function renderMappedList() {
     const { npc, quest } = res;
 
     const mapCode = detectQuestMap(quest);
-    // 현재 지도와 일치하는 퀘스트만 마커를 지도에 그림
-    if (currentMapName && mapCode === currentMapName) {
+    // 현재 맵에 실제 좌표가 있는 퀘스트만 마커를 그림
+    const positionsForCurrent = getAllPositionsForQuest(quest);
+    const hasPositionsOnCurrent =
+      Array.isArray(positionsForCurrent) && positionsForCurrent.length > 0;
+    if (hasPositionsOnCurrent) {
       addOrUpdateMarker(questId, npc, quest);
     }
 
@@ -233,14 +365,50 @@ function renderMappedList() {
       renderMappedList();
     });
 
-    // 해당 맵으로 이동 버튼
-    if (mapCode) {
+    // 해당 맵으로 이동 버튼 (좌표가 실제로 있는 경우에만 활성화)
+    const questMapCode = getQuestMapFromPositions(quest);
+    if (questMapCode) {
       const gotoBtn = createEl("button", "btn secondary");
       gotoBtn.textContent = "해당 맵으로 이동";
       gotoBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        const tab = document.querySelector(`.map-tab[data-map="${mapCode}"]`);
-        if (tab) tab.click();
+        // 맵 코드에 따라 적절한 탭 선택
+        let targetTab = null;
+        if (questMapCode === "labrynth") {
+          // Labrynth는 Shoreline 하위 맵이므로 Shoreline 탭을 클릭하고 하위 탭도 활성화
+          const shorelineTab = document.querySelector(`.map-tab[data-map="shoreline"]`);
+          if (shorelineTab) {
+            shorelineTab.click();
+            setTimeout(() => {
+              const labrynthTab = document.querySelector(`.floor-tab[data-floor="labrynth"]`);
+              if (labrynthTab) labrynthTab.click();
+            }, 100);
+          }
+        } else if (questMapCode === "reserve_b1") {
+          // Reserve B1은 Reserve 하위 맵이므로 Reserve 탭을 클릭하고 하위 탭도 활성화
+          const reserveTab = document.querySelector(`.map-tab[data-map="reserve"]`);
+          if (reserveTab) {
+            reserveTab.click();
+            setTimeout(() => {
+              const b1Tab = document.querySelector(`.floor-tab[data-floor="reserve_b1"]`);
+              if (b1Tab) b1Tab.click();
+            }, 100);
+          }
+        } else if (questMapCode.startsWith("the_lap_")) {
+          // Lab 층은 Lab 탭을 클릭하고 해당 층 탭도 활성화
+          const labTab = document.querySelector(`.map-tab[data-map="lab"]`);
+          if (labTab) {
+            labTab.click();
+            setTimeout(() => {
+              const floorTab = document.querySelector(`.floor-tab[data-floor="${questMapCode}"]`);
+              if (floorTab) floorTab.click();
+            }, 100);
+          }
+        } else {
+          // 일반 맵
+          targetTab = document.querySelector(`.map-tab[data-map="${questMapCode}"]`);
+          if (targetTab) targetTab.click();
+        }
       });
       actions.append(gotoBtn);
     }
@@ -254,7 +422,10 @@ function renderMappedList() {
 
     card.append(left, actions, coord);
     card.addEventListener("click", () => openMappedQuestModal(npc, quest));
-    card.addEventListener("mouseenter", () => addOrUpdateMarker(questId, npc, quest));
+    // 현재 맵에 좌표가 있는 퀘스트만 호버 시 마커를 다시 그림
+    if (hasPositionsOnCurrent) {
+      card.addEventListener("mouseenter", () => addOrUpdateMarker(questId, npc, quest));
+    }
     mapDom.mappedList.append(card);
     shown++;
   }
@@ -385,6 +556,253 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentFloorCode = "the_lap_1f";
   const floorTabs = mapDom.floorTabs;
   const floorButtons = floorTabs ? floorTabs.querySelectorAll('.floor-tab') : [];
+  const originalFloorConfigs = floorTabs
+    ? Array.from(floorButtons).map(btn => ({
+        el: btn,
+        code: btn.getAttribute("data-floor"),
+        label: btn.textContent
+      }))
+    : [];
+
+  // 좌표 편집 관리자 모드
+  const ADMIN_FLAG_KEY = "coordEditorAdmin_v1";
+  const ADMIN_PASSWORD = "1234"; // 필요 시 여기서 비밀번호를 변경하세요.
+  let coordAdmin = false;
+  let currentEditQuestId = null;
+
+  function initCoordEditor() {
+    if (!mapDom.map || mapDom.coordEditorPanel) return;
+
+    const panel = document.createElement("div");
+    panel.className = "coord-editor";
+
+    const title = document.createElement("div");
+    title.className = "coord-editor-title";
+    title.textContent = "좌표 편집 (관리자)";
+
+    const select = document.createElement("select");
+    select.className = "coord-editor-select";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "퀘스트 선택…";
+    select.append(placeholder);
+
+    const info = document.createElement("div");
+    info.className = "coord-editor-info";
+    info.textContent = "퀘스트를 선택하세요.";
+
+    const hint = document.createElement("div");
+    hint.className = "coord-editor-hint";
+    hint.textContent = "Alt+클릭: 현재 맵에서 선택된 퀘스트 좌표 지정";
+
+    const undoBtn = document.createElement("button");
+    undoBtn.type = "button";
+    undoBtn.className = "btn ghost coord-editor-undo";
+    undoBtn.textContent = "마지막 좌표 되돌리기";
+
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "btn ghost coord-editor-clear";
+    clearBtn.textContent = "이 퀘스트 좌표 초기화";
+
+    const exportBtn = document.createElement("button");
+    exportBtn.type = "button";
+    exportBtn.className = "btn ghost coord-editor-export";
+    exportBtn.textContent = "JSON 복사";
+
+    panel.append(title, select, info, hint, undoBtn, clearBtn, exportBtn);
+    mapDom.map.append(panel);
+
+    mapDom.coordEditorPanel = panel;
+    mapDom.coordEditorSelect = select;
+    mapDom.coordEditorInfo = info;
+
+    select.addEventListener("change", () => {
+      currentEditQuestId = select.value || null;
+      updateCoordEditorInfo();
+    });
+
+    undoBtn.addEventListener("click", () => {
+      if (!currentEditQuestId) {
+        alert("먼저 퀘스트를 선택하세요.");
+        return;
+      }
+      try {
+        const store = (typeof window !== "undefined" && window.IMMUTABLE_POSITIONS) || {};
+        let entry = store[currentEditQuestId];
+        if (!entry) {
+          alert("되돌릴 좌표가 없습니다.");
+          return;
+        }
+        if (!Array.isArray(entry)) entry = [entry];
+        if (!entry.length) {
+          alert("되돌릴 좌표가 없습니다.");
+          return;
+        }
+        entry.pop();
+        if (entry.length === 0) {
+          delete store[currentEditQuestId];
+        } else {
+          store[currentEditQuestId] = entry;
+        }
+      } catch (err) {
+        console.error(err);
+        alert("좌표 되돌리기 중 오류가 발생했습니다.");
+        return;
+      }
+      updateCoordEditorInfo();
+      const res = typeof getQuestById === "function" ? getQuestById(currentEditQuestId) : null;
+      if (res) {
+        addOrUpdateMarker(currentEditQuestId, res.npc, res.quest);
+      }
+      renderMappedList();
+    });
+
+    clearBtn.addEventListener("click", () => {
+      if (!currentEditQuestId) {
+        alert("먼저 퀘스트를 선택하세요.");
+        return;
+      }
+      if (!window.confirm("이 퀘스트에 저장된 모든 좌표를 삭제할까요? (되돌릴 수 없습니다. positions.js에 이미 반영했다면 직접 복구해야 합니다.)")) {
+        return;
+      }
+      try {
+        const store = (typeof window !== "undefined" && window.IMMUTABLE_POSITIONS) || {};
+        if (store[currentEditQuestId]) {
+          delete store[currentEditQuestId];
+        }
+      } catch (err) {
+        console.error(err);
+        alert("좌표 초기화 중 오류가 발생했습니다.");
+        return;
+      }
+      updateCoordEditorInfo();
+      const res = typeof getQuestById === "function" ? getQuestById(currentEditQuestId) : null;
+      if (res) {
+        addOrUpdateMarker(currentEditQuestId, res.npc, res.quest);
+      }
+      renderMappedList();
+    });
+
+    exportBtn.addEventListener("click", () => {
+      try {
+        const data = (typeof window !== "undefined" && window.IMMUTABLE_POSITIONS) || {};
+        const text = JSON.stringify(data, null, 2);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(() => alert("IMMUTABLE_POSITIONS JSON이 클립보드에 복사되었습니다.\npositions.js에 붙여 넣어 사용하세요."))
+            .catch(() => {
+              // 클립보드 접근 실패 시 프롬프트로 대체
+              window.prompt("아래 JSON을 복사해서 positions.js에 붙여 넣으세요.", text);
+            });
+        } else {
+          window.prompt("아래 JSON을 복사해서 positions.js에 붙여 넣으세요.", text);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("좌표 JSON 내보내기 중 오류가 발생했습니다.");
+      }
+    });
+
+    // Alt+클릭으로 좌표 지정
+    mapDom.map.addEventListener("click", (e) => {
+      if (!coordAdmin || !currentEditQuestId) return;
+      if (!e.altKey) return;
+      const pos = getWorldPercentFromClient(e.clientX, e.clientY);
+      const res = typeof getQuestById === "function" ? getQuestById(currentEditQuestId) : null;
+      if (!res) return;
+      const mapCode = currentMapName || detectQuestMap(res.quest);
+      setImmutablePosition(currentEditQuestId, mapCode, pos.x, pos.y);
+      updateCoordEditorInfo();
+      // 선택된 퀘스트 마커도 즉시 갱신
+      addOrUpdateMarker(currentEditQuestId, res.npc, res.quest);
+      e.stopPropagation();
+    });
+
+    refreshCoordEditorOptions();
+  }
+
+  function refreshCoordEditorOptions() {
+    if (!mapDom.coordEditorSelect) return;
+    const select = mapDom.coordEditorSelect;
+    const prev = select.value;
+    select.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "퀘스트 선택…";
+    select.append(placeholder);
+
+    if (!Array.isArray(npcs)) return;
+    const options = [];
+    for (const npc of npcs) {
+      if (!npc || !Array.isArray(npc.quests)) continue;
+      for (const quest of npc.quests) {
+        const code = detectQuestMap(quest);
+        const mapLabel = code ? ` [${mapCodeToLabel(code)}]` : "";
+        const label = `${npc.name} · ${quest.title}${mapLabel}`;
+        options.push({ id: quest.id, label });
+      }
+    }
+    options.sort((a, b) => a.label.localeCompare(b.label, "ko"));
+    for (const opt of options) {
+      const o = document.createElement("option");
+      o.value = opt.id;
+      o.textContent = opt.label;
+      select.append(o);
+    }
+    // 이전 선택 복원 시도
+    if (prev && options.some(o => o.id === prev)) {
+      select.value = prev;
+      currentEditQuestId = prev;
+    } else {
+      select.value = "";
+      currentEditQuestId = null;
+    }
+    updateCoordEditorInfo();
+  }
+
+  function updateCoordEditorInfo() {
+    if (!mapDom.coordEditorInfo) return;
+    if (!currentEditQuestId) {
+      mapDom.coordEditorInfo.textContent = "퀘스트를 선택하세요.";
+      return;
+    }
+    const res = typeof getQuestById === "function" ? getQuestById(currentEditQuestId) : null;
+    if (!res) {
+      mapDom.coordEditorInfo.textContent = "퀘스트 정보를 찾을 수 없습니다.";
+      return;
+    }
+    const pos = resolvePosition(res.quest);
+    let total = 0;
+    try {
+      const store = (typeof window !== "undefined" && window.IMMUTABLE_POSITIONS) || {};
+      let entry = store[currentEditQuestId];
+      if (entry) {
+        if (!Array.isArray(entry)) entry = [entry];
+        total = entry.length;
+      }
+    } catch {}
+    if (total > 0) {
+      mapDom.coordEditorInfo.textContent = `저장된 좌표: ${total}개 · 대표 좌표: X ${pos.x}%, Y ${pos.y}%`;
+    } else {
+      mapDom.coordEditorInfo.textContent = `저장된 좌표 없음 · 임시 좌표: X ${pos.x}%, Y ${pos.y}%`;
+    }
+  }
+
+  function enableCoordAdmin() {
+    if (coordAdmin) return;
+    coordAdmin = true;
+    try { localStorage.setItem(ADMIN_FLAG_KEY, "1"); } catch {}
+    initCoordEditor();
+  }
+
+  // 이전에 관리자 모드를 켰다면 자동 활성화
+  try {
+    if (localStorage.getItem(ADMIN_FLAG_KEY) === "1") {
+      coordAdmin = true;
+      initCoordEditor();
+    }
+  } catch {}
 
   // 맵 배경 적용기: jpg → png → webp 순 폴백, 복수형(s) → 단수형도 시도
   function applyMapBackgroundFor(mapName, labelText) {
@@ -579,14 +997,56 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       renderMappedList();
 
-      // The Lab: 층 하위 탭 표시 및 층 배경 적용
+      // The Lab / Reserve / Shoreline: 층 하위 탭 표시 및 층/지하 배경 적용
       if (floorTabs) {
         if (mapName === "lab") {
           floorTabs.style.display = "";
-          // 첫 진입 시 1F를 기본 선택
-          if (!currentFloorCode) currentFloorCode = "the_lap_1f";
+          // Lab 전용 기본 설정 복원
+          originalFloorConfigs.forEach(cfg => {
+            cfg.el.style.display = "";
+            cfg.el.setAttribute("data-floor", cfg.code);
+            cfg.el.textContent = cfg.label;
+          });
+          // 첫 진입 또는 다른 맵에서 넘어온 경우 1F를 기본 선택
+          if (!currentFloorCode || !String(currentFloorCode).startsWith("the_lap_")) {
+            currentFloorCode = "the_lap_1f";
+          }
           floorButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-floor') === currentFloorCode));
           applyFloorBackground(currentFloorCode);
+        } else if (mapName === "reserve") {
+          // Reserve: 지하 1층(B1) 전용 하위 탭 사용
+          floorTabs.style.display = "";
+          originalFloorConfigs.forEach((cfg, idx) => {
+            if (idx === 0) {
+              // 첫 번째 버튼을 Reserve B1로 재사용
+              cfg.el.style.display = "";
+              cfg.el.setAttribute("data-floor", "reserve_b1");
+              cfg.el.textContent = "B1";
+            } else {
+              // 나머지 버튼은 숨김
+              cfg.el.style.display = "none";
+            }
+            cfg.el.classList.remove("active");
+          });
+          // 기본 배경은 지상 Reserve 맵으로 유지
+          applyMapBackgroundFor(mapName, tab.textContent);
+        } else if (mapName === "shoreline") {
+          // Shoreline: Labrynth 하위 맵 전용 하위 탭 사용
+          floorTabs.style.display = "";
+          originalFloorConfigs.forEach((cfg, idx) => {
+            if (idx === 0) {
+              // 첫 번째 버튼을 Labrynth로 재사용
+              cfg.el.style.display = "";
+              cfg.el.setAttribute("data-floor", "labrynth");
+              cfg.el.textContent = "Labrynth";
+            } else {
+              // 나머지 버튼은 숨김
+              cfg.el.style.display = "none";
+            }
+            cfg.el.classList.remove("active");
+          });
+          // 기본 배경은 Shoreline 맵으로 유지
+          applyMapBackgroundFor(mapName, tab.textContent);
         } else {
           floorTabs.style.display = "none";
           // 일반 맵 배경 적용
@@ -606,7 +1066,19 @@ document.addEventListener("DOMContentLoaded", () => {
         floorButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentFloorCode = btn.getAttribute('data-floor');
-        // 현재 맵 코드는 'lab' 상태 유지, 배경만 변경
+        
+        // Lab의 경우: 현재 맵 코드는 'lab' 상태 유지, 배경만 변경
+        // Shoreline의 Labrynth 경우: currentMapName을 'labrynth'로 변경하여 마커 필터링
+        if (currentFloorCode === "labrynth") {
+          currentMapName = "labrynth";
+        } else if (String(currentFloorCode).startsWith("the_lap_")) {
+          // Lab 층은 currentMapName을 'lab'으로 유지
+          currentMapName = "lab";
+        } else if (currentFloorCode === "reserve_b1") {
+          // Reserve B1은 currentMapName을 'reserve_b1'로 변경
+          currentMapName = "reserve_b1";
+        }
+        
         applyFloorBackground(currentFloorCode);
       });
     });
@@ -616,6 +1088,25 @@ document.addEventListener("DOMContentLoaded", () => {
   attachInteractions();
   // 초기 뷰
   resetView();
+
+  // 첫 진입 시 Customs 맵을 기본 선택
+  const defaultTab = document.querySelector('.map-tab[data-map="customs"]');
+  if (defaultTab) {
+    defaultTab.click();
+  }
+
+  // Ctrl+Shift+E로 좌표 편집 관리자 모드 진입 (비밀번호 필요)
+  window.addEventListener("keydown", (e) => {
+    if (!e.ctrlKey || !e.shiftKey || e.code !== "KeyE") return;
+    const pwd = window.prompt("좌표 편집 도구 비밀번호를 입력하세요:");
+    if (pwd == null) return;
+    if (pwd === ADMIN_PASSWORD) {
+      enableCoordAdmin();
+      alert("좌표 편집 도구가 활성화되었습니다.");
+    } else {
+      alert("비밀번호가 올바르지 않습니다.");
+    }
+  });
 });
 
 function getWorldPercentFromClient(clientX, clientY) {
