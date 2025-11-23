@@ -89,10 +89,10 @@ function getQuestMapFromPositions(quest) {
   return null;
 }
 
-// 현재 맵 기준으로 퀘스트에 연결된 모든 좌표 목록을 반환
+// 현재 맵 기준으로 퀘스트에 연결된 모든 "실제" 좌표 목록을 반환
 // - positions.js의 IMMUTABLE_POSITIONS에 여러 개가 있으면 전부 사용
 // - 현재 맵 코드와 일치하는 것 우선, 없으면 map이 비어 있는 항목, 그래도 없으면 전부
-// - IMMUTABLE_POSITIONS가 비어 있으면 quest.position 또는 해시 좌표 1개만 반환
+// - IMMUTABLE_POSITIONS가 비어 있으면 빈 배열을 반환(기본/가짜 좌표는 사용하지 않음)
 function getAllPositionsForQuest(quest) {
   const positions = [];
   try {
@@ -126,23 +126,8 @@ function getAllPositionsForQuest(quest) {
     }
   } catch {}
 
-  // IMMUTABLE_POSITIONS에 없으면 기존 단일 좌표/해시 좌표로 대체
-  if (
-    quest &&
-    quest.position &&
-    typeof quest.position.x === "number" &&
-    typeof quest.position.y === "number"
-  ) {
-    return [quest.position];
-  }
-  const id = quest && quest.id ? quest.id : Math.random().toString(36).slice(2);
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  const col = hash % 7;
-  const row = Math.floor((hash >> 3) % 6);
-  const x = 10 + col * 12;
-  const y = 20 + row * 10;
-  return [{ x, y }];
+  // 좌표 정보가 전혀 없으면 빈 배열 반환
+  return [];
 }
 
 // 퀘스트 텍스트에서 맵 코드 추출 (quests.js와 동일 규칙)
@@ -184,6 +169,15 @@ function mapCodeToLabel(code) {
   return labels[code] || code;
 }
 
+// UI에서 표시할 "대표 맵 코드"
+// 1) IMMUTABLE_POSITIONS에 좌표가 있으면 그 좌표의 맵 코드 사용
+// 2) 없으면 기존 텍스트 기반 detectQuestMap 결과 사용
+function getQuestPrimaryMapCode(quest) {
+  const fromPos = getQuestMapFromPositions(quest);
+  if (fromPos) return fromPos;
+  return detectQuestMap(quest);
+}
+
 function createEl(tag, className, children) {
   const el = document.createElement(tag);
   if (className) el.className = className;
@@ -214,22 +208,12 @@ function renderMultilineDescription(text) {
 }
 
 function resolvePosition(quest) {
-  // 1) 코드에 고정된 좌표(전역 positions.js) 우선
+  // positions.js에 저장된 실제 좌표만 사용
   if (quest && quest.id) {
     const imm = getImmutablePosition(quest);
     if (imm) return imm;
   }
-  if (quest && quest.position && typeof quest.position.x === "number" && typeof quest.position.y === "number") {
-    return quest.position;
-  }
-  const id = quest && quest.id ? quest.id : Math.random().toString(36).slice(2);
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  const col = hash % 7;
-  const row = Math.floor((hash >> 3) % 6);
-  const x = 10 + col * 12;
-  const y = 20 + row * 10;
-  return { x, y };
+  return null;
 }
 
 // 범례 제거됨
@@ -321,7 +305,7 @@ function renderMappedList() {
     if (!res) continue;
     const { npc, quest } = res;
 
-    const mapCode = detectQuestMap(quest);
+    const mapCode = getQuestPrimaryMapCode(quest);
     // 현재 맵에 실제 좌표가 있는 퀘스트만 마커를 그림
     const positionsForCurrent = getAllPositionsForQuest(quest);
     const hasPositionsOnCurrent =
@@ -461,7 +445,7 @@ function openMappedQuestModal(npc, quest) {
   const dot = createEl("span", "npc-dot"); dot.style.background = npc.color;
   const title = createEl("span", "title-text", [document.createTextNode(`${npc.name} · ${quest.title}`)]);
 
-  const mapCode = detectQuestMap(quest);
+  const mapCode = getQuestPrimaryMapCode(quest);
   const mapBadge = createEl("span", `map-badge${mapCode ? "" : " map-none"}`);
   mapBadge.textContent = mapCode ? mapCodeToLabel(mapCode) : "X";
   mapBadge.title = mapCode ? `이 퀘스트가 진행되는 맵: ${mapCodeToLabel(mapCode)}` : "특정 맵 없음/여러 맵";
@@ -480,7 +464,13 @@ function openMappedQuestModal(npc, quest) {
   const desc = createEl("p");
   desc.innerHTML = renderMultilineDescription(quest.description || "");
   const pos = resolvePosition(quest);
-  const coord = createEl("div", "coord"); coord.style.color = "#90a0b7"; coord.style.fontSize = "12px"; coord.textContent = `좌표: ${pos.x}%, ${pos.y}%`;
+  let coord = null;
+  if (pos) {
+    coord = createEl("div", "coord");
+    coord.style.color = "#90a0b7";
+    coord.style.fontSize = "12px";
+    coord.textContent = `좌표: ${pos.x}%, ${pos.y}%`;
+  }
 
   // 보상 섹션 (있을 경우)
   let rewardsSection = null;
@@ -503,15 +493,22 @@ function openMappedQuestModal(npc, quest) {
     }
     stepsWrap.append(h, ul);
     if (rewardsSection) {
-      box.append(head, desc, coord, rewardsSection, stepsWrap);
+      box.append(head, desc);
+      if (coord) box.append(coord);
+      box.append(rewardsSection, stepsWrap);
     } else {
-      box.append(head, desc, coord, stepsWrap);
+      box.append(head, desc);
+      if (coord) box.append(coord);
+      box.append(stepsWrap);
     }
   } else {
     if (rewardsSection) {
-      box.append(head, desc, coord, rewardsSection);
+      box.append(head, desc);
+      if (coord) box.append(coord);
+      box.append(rewardsSection);
     } else {
-      box.append(head, desc, coord);
+      box.append(head, desc);
+      if (coord) box.append(coord);
     }
   }
 
@@ -737,7 +734,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const npc of npcs) {
       if (!npc || !Array.isArray(npc.quests)) continue;
       for (const quest of npc.quests) {
-        const code = detectQuestMap(quest);
+        const code = getQuestPrimaryMapCode(quest);
         const mapLabel = code ? ` [${mapCodeToLabel(code)}]` : "";
         const label = `${npc.name} · ${quest.title}${mapLabel}`;
         options.push({ id: quest.id, label });
