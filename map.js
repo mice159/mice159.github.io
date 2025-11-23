@@ -208,12 +208,29 @@ function renderMultilineDescription(text) {
 }
 
 function resolvePosition(quest) {
-  // positions.js에 저장된 실제 좌표만 사용
+  // 1) 코드에 고정된 좌표(전역 positions.js) 우선
   if (quest && quest.id) {
     const imm = getImmutablePosition(quest);
     if (imm) return imm;
   }
-  return null;
+  // 2) 퀘스트 객체에 직접 정의된 좌표가 있다면 사용
+  if (
+    quest &&
+    quest.position &&
+    typeof quest.position.x === "number" &&
+    typeof quest.position.y === "number"
+  ) {
+    return quest.position;
+  }
+  // 3) 표시용으로만 사용하는 결정적 가짜 좌표 (실제 마커에는 사용하지 않음)
+  const id = quest && quest.id ? quest.id : Math.random().toString(36).slice(2);
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  const col = hash % 7;
+  const row = Math.floor((hash >> 3) % 6);
+  const x = 10 + col * 12;
+  const y = 20 + row * 10;
+  return { x, y };
 }
 
 // 범례 제거됨
@@ -349,8 +366,10 @@ function renderMappedList() {
       renderMappedList();
     });
 
-    // 해당 맵으로 이동 버튼 (좌표가 실제로 있는 경우에만 활성화)
-    const questMapCode = getQuestMapFromPositions(quest);
+    // 해당 맵으로 이동 버튼
+    // - 좌표가 있으면 좌표의 맵 코드로 이동
+    // - 좌표가 없으면 텍스트 기반 맵 감지 결과로 이동
+    const questMapCode = getQuestPrimaryMapCode(quest);
     if (questMapCode) {
       const gotoBtn = createEl("button", "btn secondary");
       gotoBtn.textContent = "해당 맵으로 이동";
